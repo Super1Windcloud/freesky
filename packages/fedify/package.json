@@ -1,0 +1,32 @@
+{
+  "name": "fedify",
+  "version": "1.0.0",
+  "description": "a package for fedify of mastodon instances",
+  "main": "index.js",
+  "type": "module",
+  "author": "Superwindcloud",
+  "scripts": {
+    "compile": "tsx watch index.ts",
+    "prod" : "node --import tsx index.ts",
+    "createdb": "sqlite3 microblog.sqlite3 < src/schema.sql"
+
+  },
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^24.0.10",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "@types/better-sqlite3": "^7.6.11"
+  },
+  "dependencies": {
+    "@deno/kv": "^0.10.0",
+    "@fedify/fedify": "^1.7.2",
+    "@hono/node-server": "^1.15.0",
+    "@logtape/logtape": "^1.0.2",
+    "@js-temporal/polyfill": "^0.4.4",
+    "better-sqlite3": "^11.1.2",
+    "hono": "^4.5.5",
+    "stringify-entities": "^4.0.4",
+    "x-forwarded-fetch": "^0.2.0"
+  }
+}

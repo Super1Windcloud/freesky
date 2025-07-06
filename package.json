@@ -1,0 +1,36 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "author": {
+    "name": "superwindcloud",
+    "email": "ss1178933440@gmail.com"
+  },
+  "version": "0.0.1",
+  "description": "Nuxt.js project",
+  "homepage": "https://github.com/super1windcloud/freesky",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "backend": "pnpm --filter   fedify   run compile",
+    "deploy_server" : "pnpm i && pnpm --filter hollo run deploy && pnpm run deploy_client",
+    "deploy_client" : "pnpm dev"
+  },
+  "dependencies": {
+    "@fedify/fedify": "^1.7.2",
+    "axios": "^1.10.0",
+    "nuxt": "^3.17.6",
+    "nuxtjs-naive-ui": "1.0.2",
+    "vue": "^3.5.17",
+    "vue-router": "^4.5.1"
+  },
+  "packageManager": "pnpm@10.12.4+sha512.5ea8b0deed94ed68691c9bad4c955492705c5eeb8a87ef86bc62c74a26b037b08ff9570f108b2e4dbd1dd1a9186fea925e527f141c648e85af45631074680184",
+  "devDependencies": {
+    "@types/node": "^24.0.10",
+    "naive-ui": "^2.42.0",
+    "prettier": "^3.6.2"
+  }
+}
