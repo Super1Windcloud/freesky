@@ -2,7 +2,7 @@ services:
   hollo:
     image: ghcr.io/fedify-dev/hollo:canary
     ports:
-      - "8888:8888"
+      - "3000:3000"
     environment:
       DATABASE_URL: "postgres://freesky:freesky@postgres:5432/freesky"
       SECRET_KEY: "${SECRET_KEY}"
