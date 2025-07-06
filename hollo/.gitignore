@@ -1,4 +1,3 @@
-.env
 assets/
 fedify-hollo-*.tgz
 *.jsonl
