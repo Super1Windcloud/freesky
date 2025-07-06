@@ -1,7 +1,6 @@
-# Nuxt Minimal Starter
+# 基于ActivityPub协议的 兼容Mastodon实例的社交微博网站
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
+ 
 
 ## Docker-Compose 快速开始
 - 安装 Docker 
@@ -17,6 +16,9 @@ Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduct
 - pnpm 10+ 
 - postgreSQL 17+
 - ffmpeg 
+- nginx/caddy
+
+
 
 ```bash
 pnpm run deploy_server 
