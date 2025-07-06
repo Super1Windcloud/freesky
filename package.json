@@ -17,7 +17,8 @@
     "postinstall": "nuxt prepare",
     "backend": "pnpm --filter   fedify   run compile",
     "deploy_server" : "pnpm i && pnpm --filter hollo run deploy && pnpm run deploy_client",
-    "deploy_client" : "pnpm dev"
+    "deploy_client" : "pnpm dev",
+    "docker" : "pnpm --filter   fedify   run docker"
   },
   "dependencies": {
     "@fedify/fedify": "^1.7.2",

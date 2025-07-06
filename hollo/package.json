@@ -23,7 +23,8 @@
     "deploy": "pnpm run createdb && pnpm run prod",
     "startdb": "pg_ctl start",
     "initdb": "createuser --createdb  freesky && createdb --username=freesky --encoding=utf8 --template=template0  freesky",
-    "createdb": "pnpm startdb  && pnpm initdb "
+    "createdb": "pnpm startdb  && pnpm initdb ",
+    "docker" : "docker-compose up  --build"
   },
   "dependencies": {
     "@aws-sdk/credential-providers": "^3.716.0",
