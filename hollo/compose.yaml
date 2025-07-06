@@ -20,7 +20,7 @@ services:
       - postgres
       - minio
       - create-bucket
-    restart: unless-stopped
+    restart: no
 
   postgres:
     image: postgres:17
@@ -30,7 +30,7 @@ services:
       POSTGRES_DB: freesky
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    restart: unless-stopped
+    restart: no
 
   minio:
     image: minio/minio:latest
