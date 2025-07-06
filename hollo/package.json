@@ -5,7 +5,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": "^22.16.0"
+    "node": ">=22.16.0"
   },
   "scripts": {
     "prod": "pnpm run migrate && tsx --env-file-if-exists=.env --dns-result-order=ipv6first bin/server.ts",
