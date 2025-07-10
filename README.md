@@ -2,26 +2,12 @@
 
  
 
-## Docker-Compose 快速开始
-- 安装 Docker 
-- 安装 Docker Compose 
-- 克隆项目到本地
-- 进入项目目录 `pnpm run docker` 
- 
-
-## 源码构建
-
-#### 使用前提
-- Node.js 22+ 
-- pnpm 10+ 
-- postgreSQL 17+
-- ffmpeg 
-- nginx/caddy
 
 
 
+##  快速开始
 ```bash
-pnpm run deploy_server 
-pnpm run deploy_client
+pnpm  install 
+pnpm  dev
 ```
- 
+访问 http://localhost:3333/

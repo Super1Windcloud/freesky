@@ -1,17 +1,16 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: false },
-
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.API_BASE_URL || "http://localhost:8888",
+      apiBaseUrl: process.env.FED_API_BASE || "http://localhost:8888",
     },
   },
 
   devServer: {
     port: 3333,
   },
-  modules: ["nuxtjs-naive-ui"],
+  modules: ["nuxtjs-naive-ui", "@nuxtjs/i18n", "@pinia/nuxt", "nuxt-toast"],
   spaLoadingTemplate: false,
   app: {
     baseURL: "/",
@@ -38,5 +37,15 @@ export default defineNuxtConfig({
   buildDir: "nuxt-build",
   imports: {
     autoImport: true,
+  },
+  i18n: {
+    defaultLocale: "en",
+    locales: [
+      { code: "en", name: "English", file: "en.json" },
+      { code: "zh", name: "Chinese", file: "zh.json" },
+    ],
+  },
+  router: {
+    middleware: ["locale"],
   },
 });

@@ -10,7 +10,7 @@
     "allowJs": true,
     "esModuleInterop": true,
     "strict": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noImplicitThis": true

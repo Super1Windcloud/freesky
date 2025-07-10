@@ -1,36 +1,99 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-
+import { ref } from "vue";
+import { onMounted } from "vue";
+import {  useLangStore } from "~/store"
+const clickedItem = ref<string>("home");
 const router = useRouter();
+const lang = ref("");
+const { setLocale } = useI18n();
+
+const langStore = useLangStore();
+
+onMounted(() => {
+  function getPreferredLanguage() {
+    // 1. 检查URL参数（如 ?lang=zh）
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get("lang");
+    if (urlLang) return urlLang;
+    const storedLang = localStorage.getItem("preferredLanguage");
+    if (storedLang) return storedLang;
+    const browserLang = navigator.language || "en";
+    return /^zh/i.test(browserLang) ? "zh" : "en";
+  }
+
+  if (getPreferredLanguage() === "zh") {
+    setLocale("zh");
+    lang.value = "zh";
+    langStore.setLang("zh");
+  } else {
+    setLocale("en");
+    lang.value = "";
+    langStore.setLang("en");
+  }
+});
+
 const SkipToHome = () => {
-  router.push("/");
+  clickedItem.value = "home";
+  if (lang.value) {
+    router.push("/" + lang.value + "/");
+  } else {
+    router.push("/");
+  }
 };
+
 const skipToExplore = () => {
-  router.push("/explore");
+  clickedItem.value = "explore";
+  if (lang.value) {
+    router.push("/" + lang.value + "/explore/");
+  } else {
+    router.push("/explore");
+  }
 };
 
 const skipToAccount = () => {
-  router.push("/account");
+  clickedItem.value = "account";
+  if (lang.value) {
+    router.push("/" + lang.value + "/account/");
+  } else {
+    router.push("/account");
+  }
 };
 
 const skipToSettings = () => {
-  router.push("/settings");
+  clickedItem.value = "settings";
+  if (lang.value) {
+    router.push("/" + lang.value + "/settings/");
+  } else {
+    router.push("/settings/");
+  }
 };
 
 const skipToNotification = () => {
-  router.push("/notification");
+  clickedItem.value = "notification";
+  if (lang.value) {
+    router.push("/" + lang.value + "/notification/");
+  } else {
+    router.push("/notification");
+  }
 };
 
 const skipToBookmark = () => {
-  router.push("/bookmark");
+  clickedItem.value = "bookmark";
+  if (lang.value) {
+    router.push("/" + lang.value + "/bookmark/");
+  } else {
+    router.push("/bookmark");
+  }
 };
 
 const skipToFavorite = () => {
-  router.push("/favorites");
-};
-
-const skipToLogout = () => {
-  router.push("/logout");
+  clickedItem.value = "favorites";
+  if (lang.value) {
+    router.push("/" + lang.value + "/favorites/");
+  } else {
+    router.push("/favorites");
+  }
 };
 </script>
 
@@ -43,7 +106,12 @@ const skipToLogout = () => {
       style="width: 70px; height: 70px; border-radius: 50%"
       src="../assets/logo.jpg"
     />
-    <div class="home-icon" title="主页" @click.stop="SkipToHome">
+    <div
+      class="home-icon icon-item"
+      title="主页"
+      :class="{ selected: clickedItem === 'home' }"
+      @click.stop="SkipToHome"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="32"
@@ -60,8 +128,14 @@ const skipToLogout = () => {
           />
         </g>
       </svg>
+      <span class="icon-label">{{ $t("home") }}</span>
     </div>
-    <div class="explore-icon" @click.stop="skipToExplore" title="探索">
+    <div
+      class="explore-icon icon-item"
+      @click.stop="skipToExplore"
+      title="探索"
+      :class="{ selected: clickedItem === 'explore' }"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="32"
@@ -78,11 +152,13 @@ const skipToLogout = () => {
           d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a9 9 0 0 1 7.843 4.582M12 3a9 9 0 0 0-7.843 4.582m15.686 0A11.95 11.95 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.96 8.96 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.9 17.9 0 0 1 12 16.5a17.9 17.9 0 0 1-8.716-2.247m0 0A9 9 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
         />
       </svg>
+      <span class="icon-label">{{ $t("explore") }}</span>
     </div>
     <div
-      class="notifications-icon"
+      class="notifications-icon icon-item"
       @click.stop="skipToNotification"
       title="通知"
+      :class="{ selected: clickedItem === 'notification' }"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -98,8 +174,14 @@ const skipToLogout = () => {
           clip-rule="evenodd"
         />
       </svg>
+      <span class="icon-label"> {{ $t("notification") }}</span>
     </div>
-    <div class="bookmarks-icon" @click.stop="skipToBookmark" title="书签">
+    <div
+      class="bookmarks-icon icon-item"
+      @click.stop="skipToBookmark"
+      title="书签"
+      :class="{ selected: clickedItem === 'bookmark' }"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="32"
@@ -114,8 +196,14 @@ const skipToLogout = () => {
           clip-rule="evenodd"
         />
       </svg>
+      <span class="icon-label">{{ $t("bookmark") }}</span>
     </div>
-    <div class="favorites-icon" @click.stop="skipToFavorite" title="收藏">
+    <div
+      class="favorites-icon icon-item"
+      @click.stop="skipToFavorite"
+      title="收藏"
+      :class="{ selected: clickedItem === 'favorites' }"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="32"
@@ -128,9 +216,15 @@ const skipToLogout = () => {
           d="m11.645 20.91l-.007-.003l-.022-.012l-.082-.045q-.108-.06-.301-.173a25.2 25.2 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25C2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052A5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25c0 3.925-2.438 7.111-4.739 9.256a25 25 0 0 1-4.244 3.17a15 15 0 0 1-.383.219l-.022.012l-.007.004l-.003.001a.75.75 0 0 1-.704 0z"
         />
       </svg>
+      <span class="icon-label">{{ $t("favorite") }}</span>
     </div>
 
-    <div class="account-icon" @click.stop="skipToAccount" title="账户">
+    <div
+      class="account-icon icon-item"
+      @click.stop="skipToAccount"
+      title="账户"
+      :class="{ selected: clickedItem === 'account' }"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="32"
@@ -145,9 +239,15 @@ const skipToLogout = () => {
           clip-rule="evenodd"
         />
       </svg>
+      <span class="icon-label">{{ $t("user") }}</span>
     </div>
 
-    <div class="settings-icon" @click.stop="skipToSettings" title="设置">
+    <div
+      class="settings-icon icon-item"
+      @click.stop="skipToSettings"
+      title="设置"
+      :class="{ selected: clickedItem === 'settings' }"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="32"
@@ -162,53 +262,66 @@ const skipToLogout = () => {
           clip-rule="evenodd"
         />
       </svg>
-    </div>
-    <div class="logout-icon" @click.stop="skipToLogout" title="登出">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="32"
-        height="32"
-        viewBox="0 0 24 24"
-        style="color: #000"
-      >
-        <path
-          fill="none"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1.5"
-          d="M6 6.5C4.159 8.148 3 10.334 3 13a9 9 0 1 0 18 0c0-2.666-1.159-4.852-3-6.5M12 2v9m0-9c-.7 0-2.008 1.994-2.5 2.5M12 2c.7 0 2.008 1.994 2.5 2.5"
-        />
-      </svg>
+      <span class="icon-label">{{ $t("setting") }}</span>
     </div>
   </div>
 </template>
 
 <style scoped>
+.selected {
+  color: darkorange !important;
+}
+
 .container {
   display: flex;
   flex-direction: column;
   justify-content: start;
-  align-items: center;
+  align-items: flex-start;
   gap: 30px;
 }
 
 .logo {
   margin-top: 45px;
+  margin-left: 20px;
 }
-.logo,
-.home-icon,
-.explore-icon,
-.notifications-icon,
-.bookmarks-icon,
-.favorites-icon,
-.account-icon,
-.settings-icon,
-.logout-icon {
-  cursor: pointer;
 
-  :hover {
-    filter: brightness(90%);
-  }
+.icon-item {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.icon-item:hover {
+  background-color: dimgray;
+  filter: brightness(1.1);
+  transform: scale(1.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.icon-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  gap: 10px; /* 图标和文字之间的间距 */
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.icon-item svg {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  min-width: 32px;
+}
+
+.icon-label {
+  font-size: 16px;
+  font-weight: bold;
 }
 </style>

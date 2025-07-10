@@ -1,11 +1,38 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeMount } from "vue";
 
-const searchText = ref("");
+import { useLangStore } from "~/store";
 
-// 点击搜索按钮的处理函数（可自定义行为）
-const handleSearch = () => {
+const langStore = useLangStore();
+const searchText = ref("");
+const search = ref("");
+const login = ref("");
+const register = ref("");
+const router = useRouter();
+
+onMounted(() => {
+  search.value = $t("search") ?? "Search";
+  login.value = $t("login") ?? "Login";
+  register.value = $t("register") ?? "Register";
+});
+
+const handleSearch = async () => {
   console.log("搜索内容：", searchText.value);
+  if ( langStore.getLang === "zh") {
+    await router.push({
+      path: "/zh/searchResultView",
+      query: {
+        queryText: searchText.value,
+      },
+    });
+  } else if (langStore.getLang === "en") {
+    await router.push({
+      path: "/searchResultView",
+      query: {
+        queryText: searchText.value,
+      },
+    });
+  }
 };
 </script>
 
@@ -31,7 +58,7 @@ const handleSearch = () => {
       placeholder="something to search..."
       @keyup.enter="handleSearch"
     />
-    <button class="search-button" @click="handleSearch">搜索</button>
+    <button class="search-button" @click="handleSearch">{{ search }}</button>
   </div>
 </template>
 
@@ -40,12 +67,11 @@ const handleSearch = () => {
   display: flex;
   margin-top: 50px;
   align-items: center;
-  width: 500px;
+  width: 100%;
   height: 50px;
   border: 1px solid lightgray;
   border-radius: 25px;
   padding: 0 16px;
-  margin-left: 40px;
   background-color: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   filter: drop-shadow(0 1px 3px lightpink);
@@ -76,7 +102,6 @@ const handleSearch = () => {
 .search-button {
   border: none;
   background-color: transparent;
-  color: white;
   padding: 6px 16px;
   border-radius: 20px;
   cursor: pointer;

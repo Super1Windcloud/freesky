@@ -4,12 +4,19 @@
       <div v-if="visible" class="dialog-overlay" @click.self="close">
         <div class="dialog-content">
           <button class="close-btn" @click="close">×</button>
-          <h1>注册FreeSky账号</h1>
+          <h1>注册Mastodon实例账号</h1>
           <p class="subtitle">
             站点上注册一个账号，你就可以关注联邦宇宙中的任何人，无论他们的账号在哪里。
           </p>
 
           <form @submit.prevent="onRegister" class="form">
+            <input
+              v-model="serverDomain"
+              type="text"
+              placeholder="服务器域名, 例如: mastodon.social"
+              class="input"
+              required
+            />
             <input
               v-model="username"
               type="text"
@@ -50,8 +57,22 @@
             >
               {{ errorMessage }}
             </div>
-            <button :disabled="!canSubmit" type="submit" class="btn">
-              注册
+            <button
+              v-if="!registerFinish"
+              :disabled="!canSubmit"
+              type="submit"
+              class="btn"
+            >
+              <span v-if="isSubmitting" class="spinner"></span>
+              <span v-else>{{ registerValue }}</span>
+            </button>
+            <button
+              v-else
+              type="button"
+              @click.stop="openRegisterFinishSkipButton"
+              class="btn"
+            >
+              {{ $t("registerFinish") }}
             </button>
           </form>
         </div>
@@ -63,6 +84,9 @@
 <script setup lang="ts">
 import { ref, computed, defineExpose } from "vue";
 import axios from "axios";
+import { useRegisterFinishStore } from "~/store";
+
+const isSubmitting = ref(false);
 const visible = ref(false);
 const username = ref("");
 const email = ref("");
@@ -70,10 +94,33 @@ const password = ref("");
 const confirmPassword = ref("");
 const agreePolicy = ref(false);
 const errorMessage = ref("");
+const serverDomain = ref("");
+const registerFinish = ref(false);
+
+const toast = useToast();
+
+watch(isSubmitting, () => {});
+onMounted(() => {
+  serverDomain.value = "https://techhub.social";
+  confirmPassword.value = "ss1178933440@gmail.com";
+});
+
+function matchUsername(username: string) {
+  const pattern = /[^a-zA-Z0-9_]$/;
+  return pattern.test(username);
+}
 
 const canSubmit = computed(() => {
   if (!username.value.trim()) {
     errorMessage.value = "用户名不能为空";
+  } else if (username.value.trim()) {
+    if (matchUsername(username.value)) {
+      errorMessage.value = "用户名只能是字母.数字,下划线";
+    } else {
+      errorMessage.value = "";
+    }
+  } else if (!serverDomain.value.trim()) {
+    errorMessage.value = "服务器域名不能为空";
   } else if (!email.value.trim()) {
     errorMessage.value = "邮箱不能为空";
   } else if (!password.value) {
@@ -96,8 +143,27 @@ const canSubmit = computed(() => {
     password.value &&
     confirmPassword.value &&
     password.value === confirmPassword.value &&
-    agreePolicy.value
+    agreePolicy.value &&
+    serverDomain.value
   );
+});
+const registerValue = ref();
+
+onMounted(() => {
+  registerValue.value = $t("register");
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && visible.value) {
+      close();
+    }
+  });
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("keydown", (event) => {
+    if (event.key === "Escape" && visible.value) {
+      close();
+    }
+  });
 });
 
 function open() {
@@ -108,31 +174,103 @@ function close() {
   visible.value = false;
 }
 
+async function queryUsernameExist() {
+  try {
+    const res = await axios.post("/api/query_username", {
+      username: username.value,
+      url: serverDomain.value,
+    });
+    console.log("usernameExist res", res.data);
+    const data = res.data;
+    if (data.success) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log("uesrname error" + error);
+    return false;
+  }
+}
+
 async function onRegister() {
-  if (!canSubmit.value) return;
+  if (!canSubmit.value || isSubmitting.value) return;
+  if (
+    !serverDomain.value.startsWith("https://") &&
+    serverDomain.value.startsWith("https://")
+  ) {
+    serverDomain.value = "https://" + serverDomain.value;
+  }
+
   console.log("注册信息：", {
     username: username.value,
     email: email.value,
     password: password.value,
+    url: serverDomain.value,
   });
+  if (await queryUsernameExist()) {
+    errorMessage.value = "用户名已存在";
+    return;
+  }
+
   try {
+    isSubmitting.value = true;
     const res = await axios.post("/api/register", {
       username: username.value,
       email: email.value,
       password: password.value,
+      url: serverDomain.value,
     });
 
     console.log("后端返回：", res.data);
+    registerFinish.value = true;
+    toast.success({
+      position: "topCenter",
+      title: "Success!",
+      zindex: 1000,
+      message: `注册成功,打开${email.value}进行激活`,
+      timeout: 5000,
+    });
   } catch (error) {
     console.error("请求失败：", error);
+  } finally {
+    isSubmitting.value = false;
   }
-  close();
+}
+
+const registerStore = useRegisterFinishStore();
+
+function openRegisterFinishSkipButton() {
+  registerFinish.value = false;
+  visible.value = false;
+  registerStore.setFinishRegister(true);
 }
 
 defineExpose({ open });
 </script>
 
 <style scoped>
+.spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .dialog-overlay {
   position: fixed;
   inset: 0;

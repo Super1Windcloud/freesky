@@ -1,1 +1,0 @@
-ALTER TABLE "applications" ADD COLUMN "confidential" boolean DEFAULT false NOT NULL;

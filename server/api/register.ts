@@ -1,9 +1,15 @@
 // server/api/register.ts
+import { executeRegisterAutomation } from "../../utils/browser";
+
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
-  const { username, email, password } = body;
+  const { username, email, password, url } = body;
 
-  console.log("后端收到注册信息：", { username, email, password });
+  console.log(body);
+
+  const  registerUrl = url.endsWith('/') ? url+'auth/sign_up' : url + '/auth/sign_up';
+
+  await  executeRegisterAutomation(registerUrl, body );
 
   return {
     success: true,

@@ -1,23 +1,19 @@
 // server/api/register.ts
 import axios from "axios";
+import { createRestAPIClient  } from "masto";
 
 export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig();
-  const baseUrl = config.public.apiBaseUrl;
-
   const body = await readBody(event);
-  const { email, password } = body;
 
-  console.log("后端收到登录信息：", { email, password });
-  const response = await axios.get(`${baseUrl}/users/me`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    // body: JSON.stringify(body),
+  const { url } = body;
+
+  console.log("access url " + url);
+  const masto = createRestAPIClient({
+    url: url,
+    accessToken: process.env.ACCESS_TOKEN,
   });
 
-  const data = response.data;
-  console.log("后端返回的登录信息：", data);
+
 
   return {
     success: true,

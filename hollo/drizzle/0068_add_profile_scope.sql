@@ -1,1 +1,0 @@
-ALTER TYPE "public"."scope" ADD VALUE 'profile';

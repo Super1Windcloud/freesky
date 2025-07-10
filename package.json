@@ -16,20 +16,31 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "backend": "pnpm --filter   fedify   run compile",
-    "deploy_server" : "pnpm i && pnpm --filter hollo run deploy && pnpm run deploy_client",
-    "deploy_client" : "pnpm dev",
-    "docker" : "pnpm --filter   hollo   run docker"
+    "deploy_server": "pnpm i && pnpm --filter hollo run deploy && pnpm run deploy_client",
+    "deploy_client": "pnpm dev",
+    "docker": "pnpm --filter   hollo   run docker"
   },
   "dependencies": {
     "@fedify/fedify": "^1.7.2",
+    "@pinia/nuxt": "0.11.1",
     "axios": "^1.10.0",
+    "compare-versions": "^6.1.1",
+    "izitoast": "^1.4.0",
+    "js-cookie": "^3.0.5",
+    "masto": "^7.1.0",
     "nuxt": "^3.17.6",
+    "nuxt-toast": "1.1.4",
     "nuxtjs-naive-ui": "1.0.2",
+    "pinia": "^3.0.3",
+    "puppeteer": "^24.11.2",
     "vue": "^3.5.17",
+    "vue-i18n": "^11.1.9",
     "vue-router": "^4.5.1"
   },
   "packageManager": "pnpm@10.12.4+sha512.5ea8b0deed94ed68691c9bad4c955492705c5eeb8a87ef86bc62c74a26b037b08ff9570f108b2e4dbd1dd1a9186fea925e527f141c648e85af45631074680184",
   "devDependencies": {
+    "@nuxtjs/i18n": "10.0.0-rc.2",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^24.0.10",
     "naive-ui": "^2.42.0",
     "prettier": "^3.6.2"
