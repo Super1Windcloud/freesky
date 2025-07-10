@@ -28,9 +28,11 @@ onMounted(() => {
 <template>
   <div class="layout-container">
     <LeftOperationIcon class="left" />
-    <div class="center">
-      <slot />
-    </div>
+    <KeepAlive>
+      <div class="center">
+        <slot />
+      </div>
+    </KeepAlive>
     <RigisterSection class="right" />
   </div>
 </template>
@@ -43,11 +45,9 @@ onMounted(() => {
   width: 100%;
   position: relative;
   font-family: Arial, sans-serif;
+  justify-content: center;
+  align-items: start;
   padding: 0;
-}
-
-.left {
-  margin-left: 300px;
 }
 
 .center {

@@ -30,7 +30,7 @@ onMounted(() => {
           border: 1px solid lightgray;
           border-radius: 30px;
           margin-top: 20px;
-          width:  500px;
+          width:  100%;
           height: 50px;
           font-size: 25px;
           color: white;
@@ -47,7 +47,7 @@ onMounted(() => {
           border: 2px solid lightgray;
           border-radius: 30px;
           margin-top: 20px;
-          width:500px;
+          width: 100%;
           height: 50px;
           font-size: 25px;
           color: white;

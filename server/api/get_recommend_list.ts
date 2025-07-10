@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
   // console.log("suggestions", suggestions);
   let count = 0;
   let result  : any[]  = [];
-  while (count < 8) {
+  while (count < 5) {
     let item = suggestions[count];
     count += 1;
     result.push({

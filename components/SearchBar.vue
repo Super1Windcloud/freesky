@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeMount } from "vue";
 
-import { useLangStore } from "~/store";
+import { useLangStore, useQueryStore } from "~/store";
 
 const langStore = useLangStore();
 const searchText = ref("");
@@ -9,7 +9,7 @@ const search = ref("");
 const login = ref("");
 const register = ref("");
 const router = useRouter();
-
+const queryStore = useQueryStore();
 onMounted(() => {
   search.value = $t("search") ?? "Search";
   login.value = $t("login") ?? "Login";
@@ -18,7 +18,10 @@ onMounted(() => {
 
 const handleSearch = async () => {
   console.log("搜索内容：", searchText.value);
-  if ( langStore.getLang === "zh") {
+  if (!searchText.value.trim()) return;
+
+  queryStore.setQueryText(searchText.value);
+  if (langStore.getLang === "zh") {
     await router.push({
       path: "/zh/searchResultView",
       query: {

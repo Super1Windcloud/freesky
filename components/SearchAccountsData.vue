@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { defineProps, ref, onMounted } from "vue";
-import axios from "axios";
 import { followPerson, getAccountsData, unFollowPerson } from "~/utils/account";
 import { NInfiniteScroll } from "naive-ui";
 import store from "~/composable/store";
-import { useInstanceUrlStore, useAccessTokenStore } from "~/store";
+import {
+  useInstanceUrlStore,
+  useAccessTokenStore,
+  useQueryStore,
+} from "~/store";
 
 const instanceUrl: string =
   useInstanceUrlStore().getInstanceUrl || store.session.get("instanceURL");
@@ -14,31 +17,48 @@ const accessToken: string =
 const props = defineProps({
   queryText: {
     type: String,
-    required: true,
+    required: false,
     default: "",
   },
-  accountsData: {
-    type: Array,
-    required: false ,
-    default: [],
-  }
 });
 
 const userFollowStatus = ref<boolean[]>([]);
 const loading = ref(false);
 const noMore = ref(false);
+const accountsData = ref([]);
+const queryStore = useQueryStore();
 
-onMounted(async () => {
-  const counts = props.accountsData?.length;
-  let t = new Array(counts).fill(0);
-  userFollowStatus.value = t.map(() => false);
-  console.log("init userFollowStatus", userFollowStatus.value);
+watch(accountsData, () => {
+  if (accountsData.value.length > 0) {
+    userFollowStatus.value = accountsData.value.map(() => false);
+  }
 });
 
+
+watch(
+  () => queryStore.getQueryText,
+  async () => {
+    if (queryStore.getQueryText) {
+      userFollowStatus.value = [];
+      accountsData.value = [];
+      props.queryText=queryStore.getQueryText;
+      await handleLoad();
+    }
+  },
+);
+
+onMounted(() => {
+  handleLoad();
+})
 async function handleLoad() {
+  if (!props.queryText) {
+    return;
+  }
+
   if (loading.value || noMore.value) {
     return;
   }
+
   loading.value = true;
 
   const data = await getAccountsData(props.queryText);
@@ -50,7 +70,7 @@ async function handleLoad() {
   let t = new Array(counts).fill(0);
   userFollowStatus.value = t.map(() => false);
 
-  props.accountsData.push(...data);
+  accountsData.value.push(...data);
   loading.value = false;
 }
 </script>
@@ -58,12 +78,7 @@ async function handleLoad() {
 <template>
   <div class="container">
     <n-infinite-scroll style="height: 100%" :distance="10" @load="handleLoad">
-      <div
-        v-for="(item, index) in props.accountsData"
-        :key="index"
-        class="user"
-        :class="{ reverse: index % 5 === 0 }"
-      >
+      <div v-for="(item, index) in accountsData" :key="index" class="user">
         <img
           style="
             margin-left: 30px;
@@ -148,8 +163,10 @@ async function handleLoad() {
           {{ $t("unfollow") }}
         </button>
       </div>
-      <h1  style="text-align: center" v-if="loading" class="text">加载中...</h1>
-      <h1  style="text-align: center" v-if="noMore" class="text">没有更多了 🤪</h1>
+      <h1 style="text-align: center" v-if="loading" class="text">加载中...</h1>
+      <h1 style="text-align: center" v-if="noMore" class="text">
+        没有更多了 🤪
+      </h1>
     </n-infinite-scroll>
   </div>
 </template>
@@ -159,7 +176,7 @@ async function handleLoad() {
   border: 2px solid lightgray;
   border-radius: 20px;
   height: 97%;
-  padding: 10px;
+  padding: 7px 10px;
 }
 
 .user {

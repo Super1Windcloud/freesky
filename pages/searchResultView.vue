@@ -5,6 +5,7 @@ import SearchAccountsData from "~/components/SearchAccountsData.vue";
 import axios from "axios";
 import { useInstanceUrlStore, useAccessTokenStore } from "~/store";
 import store from "~/composable/store";
+import { useQueryStore } from "~/store";
 
 const instanceUrl =
   useInstanceUrlStore().getInstanceUrl || store.session.get("instanceURL");
@@ -16,17 +17,35 @@ const router = useRouter();
 const route = useRoute();
 const accounts = ref([]);
 const search = ref("");
+const queryStore = useQueryStore();
 
-watch(
-  () => route.query.queryText,
-  async (queryText) => {
+onMounted(() => {
+  if (route.query.queryText) {
+    const queryText = route.query.queryText;
     if (queryText) {
       search.value = queryText;
-      // accounts.value = await getAccountsData(queryText);
-      // console.log(accounts.value);
+    } else {
+      search.value = queryStore.getQueryText || "";
+    }
+  } else {
+    const text = window.location.href.trim();
+    const url = new URL(text);
+    const query = url.searchParams.get("query");
+    if (query) {
+      console.log("ref query", query);
+      search.value = query;
+    }
+  }
+});
+
+watch(
+  () => queryStore.getQueryText,
+  (queryText) => {
+    if (queryText) {
+      console.log("ref query", queryText);
+      search.value = queryText;
     }
   },
-  { immediate: true },
 );
 
 async function getAccountsData(queryText: string) {
@@ -66,14 +85,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="container" style="width: 90%">
+  <main class="container" style="width: 95%">
     <n-divider />
     <n-h1 style="text-align: center; width: 100%">
       '{{ search }}' {{ $t("searchResult") }}
     </n-h1>
     <n-tabs
       default-value="accounts"
-      tab-style="font-weight : bold; background-color : #2b2b2b;"
+      tab-style="font-weight : bold;background-color : #2b2b2b;"
       type="segment"
       animated
       :addable="false"
@@ -82,20 +101,22 @@ onMounted(() => {
       <n-tab-pane
         name="accounts"
         :tab="$t('accounts')"
-        style="font-weight: bold; width: 100%; height: 850px; overflow: auto"
+        style="font-weight: bold; width: 100%; height: 740px; overflow: auto"
       >
-        <SearchAccountsData :query-text="search" />
+        <KeepAlive>
+          <SearchAccountsData :query-text="search" />
+        </KeepAlive>
       </n-tab-pane>
       <n-tab-pane
         name="hashtags"
         :tab="$t('hashtags')"
-        style="font-weight: bold; width: 100%; height: 850px; overflow: auto"
+        style="font-weight: bold; width: 100%; height: 740px; overflow: hidden"
       >
       </n-tab-pane>
       <n-tab-pane
         name="statuses"
         :tab="$t('statuses')"
-        style="font-weight: bold; width: 100%; height: 850px; overflow: auto"
+        style="font-weight: bold; width: 100%; height: 740px; overflow: hidden"
       >
       </n-tab-pane>
     </n-tabs>

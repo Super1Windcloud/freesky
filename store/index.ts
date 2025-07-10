@@ -74,3 +74,19 @@ export const useLangStore = defineStore("useLangStore", {
     },
   },
 })
+
+export  const  useQueryStore = defineStore("useQueryStore", {
+  state: () => ({
+    query: "",
+  }),
+  getters: {
+    getQueryText: (state) => {
+      return state.query;
+    },
+  },
+  actions: {
+    setQueryText(query: string) {
+      this.query = query;
+    },
+  },
+})

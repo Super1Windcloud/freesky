@@ -144,14 +144,14 @@ async function unFollowPerson(id: string, index: number) {
   border: 2px solid lightgray;
   border-radius: 20px;
   width: 100%;
-  height: 500px;
-  padding: 10px 0;
+  height: 400px;
   margin-top: 50px;
   display: flex;
   text-align: center;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap :10px;
 }
 
 .user {
