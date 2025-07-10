@@ -6,6 +6,10 @@ import axios from "axios";
 import { useInstanceUrlStore, useAccessTokenStore } from "~/store";
 import store from "~/composable/store";
 import { useQueryStore } from "~/store";
+import SearchHashtagsResult from "~/components/SearchHashtagsResult.vue";
+import SearchStatusesResult from "~/components/SearchStatusesResult.vue";
+
+
 
 const instanceUrl =
   useInstanceUrlStore().getInstanceUrl || store.session.get("instanceURL");
@@ -85,8 +89,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="container" style="width: 95%">
-    <n-divider />
+  <main class="container" style="width: 95%; height: 90%;margin-top: 40px;">
     <n-h1 style="text-align: center; width: 100%">
       '{{ search }}' {{ $t("searchResult") }}
     </n-h1>
@@ -112,12 +115,18 @@ onMounted(() => {
         :tab="$t('hashtags')"
         style="font-weight: bold; width: 100%; height: 740px; overflow: hidden"
       >
+        <KeepAlive>
+          <SearchHashtagsResult :query-text="search" />
+        </KeepAlive>
       </n-tab-pane>
       <n-tab-pane
         name="statuses"
         :tab="$t('statuses')"
         style="font-weight: bold; width: 100%; height: 740px; overflow: hidden"
       >
+        <KeepAlive>
+          <SearchStatusesResult :query-text="search" />
+        </KeepAlive>
       </n-tab-pane>
     </n-tabs>
   </main>

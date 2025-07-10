@@ -56,18 +56,53 @@ const instanceUrl: string | null =
 const accessToken: string | null =
   useAccessTokenStore().getAccessToken || store.session.get("accessToken");
 
-export async function getAccountsData(queryText: string) {
+export async function getAccountsData(queryText: string , currentDataCount : number) {
   try {
     const res = await axios.post("/api/get_search_result", {
       url: instanceUrl,
       accessToken: accessToken,
       queryText: queryText,
       type: "accounts",
+      offset : currentDataCount + 1,
     });
     const data = res.data;
     console.log("account data", data);
     return data;
   } catch (error) {
     console.error("get accounts data ", error);
+  }
+}
+
+export async function getHashTagsData(queryText: string, currentDataCount :number ) {
+  try {
+    const res = await axios.post("/api/get_search_result", {
+      url: instanceUrl,
+      accessToken: accessToken,
+      queryText: queryText,
+      type: "hashtags",
+      offset : currentDataCount + 1,
+    });
+    const data = res.data;
+    console.log("hashtags data", data);
+    return data;
+  } catch (error) {
+    console.error("get hashtags data ", error);
+  }
+}
+
+export async function getStatusesData(queryText: string, currentDataCount :number ) {
+  try {
+    const res = await axios.post("/api/get_search_result", {
+      url: instanceUrl,
+      accessToken: accessToken,
+      queryText: queryText,
+      type: "statuses",
+      offset : currentDataCount + 1,
+    });
+    const data = res.data;
+    console.log("statuses data", data);
+    return data;
+  } catch (error) {
+    console.error("get statuses data ", error);
   }
 }

@@ -45,7 +45,5 @@ export default defineNuxtConfig({
       { code: "zh", name: "Chinese", file: "zh.json" },
     ],
   },
-  router: {
-    middleware: ["locale"],
-  },
+   
 });

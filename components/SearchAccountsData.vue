@@ -34,22 +34,22 @@ watch(accountsData, () => {
   }
 });
 
-
 watch(
   () => queryStore.getQueryText,
   async () => {
     if (queryStore.getQueryText) {
       userFollowStatus.value = [];
       accountsData.value = [];
-      props.queryText=queryStore.getQueryText;
+      props.queryText = queryStore.getQueryText;
       await handleLoad();
     }
   },
 );
 
-onMounted(() => {
-  handleLoad();
-})
+onMounted(async () => {
+  await handleLoad();
+});
+
 async function handleLoad() {
   if (!props.queryText) {
     return;
@@ -61,8 +61,8 @@ async function handleLoad() {
 
   loading.value = true;
 
-  const data = await getAccountsData(props.queryText);
-  if (data.length === 0) {
+  const data = await getAccountsData(props.queryText, accountsData.value.length);
+  if (!data) {
     console.warn("no more data");
     noMore.value = true;
   }

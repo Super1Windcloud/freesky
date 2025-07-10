@@ -15,23 +15,44 @@ export default defineEventHandler(async (event) => {
     q: body.queryText, // 你的搜索关键词
     resolve: true, // 是否解析外部实例用户，推荐设置 true
     limit: 100, // 可选，限制每类返回的条数
-    type: body.type, // 可选，"accounts" | "hashtags" | "statuses"
+    type: body.type, // 可选，"accounts" | "hashtags" | "statuses",
+    offset:   body.offset
   });
 
-  const accounts = results.accounts;
-  // console.dir(accounts);
+  let datas;
+  if (body.type === "accounts") {
+    const accounts = results.accounts;
+    datas = accounts.map((result: any) => {
+      return {
+        id: result.id,
+        username: result.username,
+        acct: result.acct,
+        displayName: result.displayName,
+        url: result.url,
+        avatar: result.avatar,
+        followersCount: result.followersCount,
+      };
+    });
+  } else if (body.type === "hashtags") {
+    const hashtags = results.hashtags;
+    // console.log(hashtags);
+    datas = hashtags.map((result: any) => {
+      return {
+        id: result.id,
+        name: result.name,
+        url: result.url,
+      }
+    });
 
-  const datas = accounts.map((result: any) => {
-    return {
-      id: result.id,
-      username: result.username,
-      acct: result.acct,
-      displayName: result.displayName,
-      url: result.url,
-      avatar: result.avatar,
-      followersCount: result.followersCount,
-    };
-  });
+  } else if (body.type === "statuses") {
+    const statuses = results.statuses;
+    console.log(statuses);
+    datas = statuses.map((result: any) => {
+      return {
+         id : result.id,
+      }
+    })
+  }
 
   return datas;
 });
