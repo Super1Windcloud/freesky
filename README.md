@@ -1,6 +1,6 @@
 # 基于ActivityPub协议的 兼容Mastodon实例的社交微博网站
 
-! [importance]
+> [!importance]
 > 正在开发中...
  
 ![img.png](img.png)
