@@ -26,9 +26,7 @@ onMounted(() => {
 </script>
 <template>
   <div class="main-content">
-    <ClientOnly>
       <PostViewSection />
-    </ClientOnly>
   </div>
 </template>
 

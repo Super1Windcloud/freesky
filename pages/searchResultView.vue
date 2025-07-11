@@ -1,4 +1,7 @@
 <script setup lang="ts">
+definePageMeta({
+  ssr: false,
+});
 import { onMounted, ref, watch } from "vue";
 import { NDivider, NH1, NTabs, NTabPane } from "naive-ui";
 import SearchAccountsData from "~/components/SearchAccountsData.vue";
@@ -9,15 +12,12 @@ import { useQueryStore } from "~/store";
 import SearchHashtagsResult from "~/components/SearchHashtagsResult.vue";
 import SearchStatusesResult from "~/components/SearchStatusesResult.vue";
 
-
-
 const instanceUrl =
   useInstanceUrlStore().getInstanceUrl || store.session.get("instanceURL");
 const accessToken =
   useAccessTokenStore().getAccessToken || store.session.get("accessToken");
 
 const { locales, setLocale } = useI18n();
-const router = useRouter();
 const route = useRoute();
 const accounts = ref([]);
 const search = ref("");
@@ -28,6 +28,7 @@ onMounted(() => {
     const queryText = route.query.queryText;
     if (queryText) {
       search.value = queryText;
+      queryStore.setQueryText(queryText);
     } else {
       search.value = queryStore.getQueryText || "";
     }
@@ -38,6 +39,7 @@ onMounted(() => {
     if (query) {
       console.log("ref query", query);
       search.value = query;
+      queryStore.setQueryText(query);
     }
   }
 });
@@ -89,7 +91,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="container" style="width: 95%; height: 90%;margin-top: 40px;">
+  <main class="container" style="width: 95%; height: 90%; margin-top: 40px">
     <n-h1 style="text-align: center; width: 100%">
       '{{ search }}' {{ $t("searchResult") }}
     </n-h1>
@@ -107,7 +109,7 @@ onMounted(() => {
         style="font-weight: bold; width: 100%; height: 740px; overflow: auto"
       >
         <KeepAlive>
-          <SearchAccountsData :query-text="search" />
+          <SearchAccountsData />
         </KeepAlive>
       </n-tab-pane>
       <n-tab-pane
@@ -116,7 +118,7 @@ onMounted(() => {
         style="font-weight: bold; width: 100%; height: 740px; overflow: hidden"
       >
         <KeepAlive>
-          <SearchHashtagsResult :query-text="search" />
+          <SearchHashtagsResult />
         </KeepAlive>
       </n-tab-pane>
       <n-tab-pane
@@ -125,7 +127,7 @@ onMounted(() => {
         style="font-weight: bold; width: 100%; height: 740px; overflow: hidden"
       >
         <KeepAlive>
-          <SearchStatusesResult :query-text="search" />
+          <SearchStatusesResult />
         </KeepAlive>
       </n-tab-pane>
     </n-tabs>

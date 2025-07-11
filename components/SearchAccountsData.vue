@@ -8,19 +8,15 @@ import {
   useAccessTokenStore,
   useQueryStore,
 } from "~/store";
+import { useRoute, useRouter } from "vue-router";
 
+const route = useRoute();
+const router = useRouter();
 const instanceUrl: string =
   useInstanceUrlStore().getInstanceUrl || store.session.get("instanceURL");
 const accessToken: string =
   useAccessTokenStore().getAccessToken || store.session.get("accessToken");
 
-const props = defineProps({
-  queryText: {
-    type: String,
-    required: false,
-    default: "",
-  },
-});
 
 const userFollowStatus = ref<boolean[]>([]);
 const loading = ref(false);
@@ -40,7 +36,6 @@ watch(
     if (queryStore.getQueryText) {
       userFollowStatus.value = [];
       accountsData.value = [];
-      props.queryText = queryStore.getQueryText;
       await handleLoad();
     }
   },
@@ -51,7 +46,7 @@ onMounted(async () => {
 });
 
 async function handleLoad() {
-  if (!props.queryText) {
+  if (!queryStore.getQueryText) {
     return;
   }
 
@@ -61,10 +56,17 @@ async function handleLoad() {
 
   loading.value = true;
 
-  const data = await getAccountsData(props.queryText, accountsData.value.length);
+  const data = await getAccountsData(
+    queryStore.getQueryText,
+    accountsData.value.length,
+    instanceUrl,
+    accessToken,
+  );
   if (!data) {
     console.warn("no more data");
     noMore.value = true;
+    loading.value = false;
+    return ;
   }
   const counts = data.lenght;
   let t = new Array(counts).fill(0);
@@ -72,6 +74,7 @@ async function handleLoad() {
 
   accountsData.value.push(...data);
   loading.value = false;
+  noMore.value = false;
 }
 </script>
 

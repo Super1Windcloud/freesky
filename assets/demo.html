@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<body>
+
+<div class="wobbly-card slider" style="width: 100%;height :200px;background-color: #1da1f2">
+    Hover over the images to see the effect!
+    <img class="fade-in-image" src="./img.png" alt="图片"/>
+</div>
+<div class="image-container" style="display: flex;flex-direction: column">
+    <img class="fade-in-image" src="./img.png" alt="图片"/>
+    <img class="fade-in-image" src="./logo.jpg" alt="图片"/>
+    <img class="fade-in-image" src="./logout.png" alt="图片"/>
+    <img class="fade-in-image" src="./logout.png" alt="图片"/>
+</div>
+
+</body>
+<script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
+<script>
+ import Lenis from 'lenis'
+    const lenis = new Lenis({
+        anchors: true,
+        autoRaf: true, allowNestedScroll: true,
+    })
+
+
+</script>
+</html>
+

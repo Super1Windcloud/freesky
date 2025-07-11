@@ -10,6 +10,8 @@ export default defineNuxtConfig({
   devServer: {
     port: 3333,
   },
+
+  ssr: true,
   modules: ["nuxtjs-naive-ui", "@nuxtjs/i18n", "@pinia/nuxt", "nuxt-toast"],
   spaLoadingTemplate: false,
   app: {
@@ -45,5 +47,7 @@ export default defineNuxtConfig({
       { code: "zh", name: "Chinese", file: "zh.json" },
     ],
   },
-   
+  routeRules: {
+    "/zh/searchResultView/**": { ssr: false },
+  },
 });

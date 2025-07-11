@@ -1,0 +1,85 @@
+{
+  "id": "114758638649602261",
+  "createdAt": "2025-06-28T02:30:58.000Z",
+  "inReplyToId": null,
+  "inReplyToAccountId": null,
+  "sensitive": false,
+  "spoilerText": "",
+  "visibility": "public",
+  "language": "zh-TW",
+  "uri": "https://pbs.idv.tw/users/pbs/statuses/114758638504593204",
+  "url": "https://pbs.idv.tw/@pbs/114758638504593204",
+  "repliesCount": 0,
+  "reblogsCount": 1,
+  "favouritesCount": 0,
+  "editedAt": null,
+  "favourited": false,
+  "reblogged": false,
+  "muted": false,
+  "bookmarked": false,
+  "content": "<p><a href=\"https://pbs.idv.tw/tags/%E4%B8%AD%E5%A4%AE%E7%A4%BE%E5%8D%B3%E6%99%82%E6%96%B0%E8%81%9E\" class=\"mention hashtag\"rel=\"nofollow noopener\" target=\"_blank\">#<span>中央社即時新聞</span></a> 國際焦點 09:54</p><p>從電影看見台灣 台巴藝文協會拜會駐聖羅經文處</p><p>（中央社記者唐雅陵聖保羅27日專電）台巴藝術文化交流協會會長謝如欣今天偕同副會長、聖保羅大學電影學院教授梅洛拜會駐聖保羅經文處長朱怡靜，雙方針對未來如何持續在巴西推廣台灣藝術文化進行交流。</p><p><a href=\"https://www.cna.com.tw/news/amov/202506280034.aspx\" rel=\"nofollow noopener\" translate=\"no\" target=\"_blank\"><span class=\"invisible\">https://www.</span><span class=\"ellipsis\">cna.com.tw/news/amov/202506280</span><span class=\"invisible\">034.aspx</span></a></p><p><a href=\"https://pbs.idv.tw/tags/%E6%96%B0%E8%81%9E\" class=\"mention hashtag\" rel=\"nofollow noopener\" target=\"_blank\">#<span>新聞</span></a></p>",
+  "filtered": [],
+  "reblog": null,
+  "account": {
+    "id": "110812761586289881",
+    "username": "pbs",
+    "acct": "pbs@pbs.idv.tw",
+    "displayName": "Taiwan Public Service",
+    "locked": false,
+    "bot": true,
+    "discoverable": true,
+    "indexable": true,
+    "group": false,
+    "createdAt": "2023-07-28T00:00:00.000Z",
+    "note": "<p>提供本站所有即時訊息的聚合帳號。因為本帳號的張貼訊息量較大，建議追蹤特定分類的帳號：<a href=\"https://pbs.idv.tw/about\"rel=\"nofollow noopener\"translate=\"no\"target=\"_blank\"><spanclass=\"invisible\">https: //</span><span class=\"\">pbs.idv.tw/about</span><span class=\"invisible\"></span></a></p>",
+    "url": "https://pbs.idv.tw/@pbs",
+    "uri": "https://pbs.idv.tw/users/pbs",
+    "avatar": "https://files.mastodon.social/cache/accounts/avatars/110/812/761/586/289/881/original/302e8189e53fdb81.png",
+    "avatarStatic": "https://files.mastodon.social/cache/accounts/avatars/110/812/761/586/289/881/original/302e8189e53fdb81.png",
+    "header": "https://mastodon.social/headers/original/missing.png",
+    "headerStatic": "https://mastodon.social/headers/original/missing.png",
+    "followersCount": 590,
+    "followingCount": 1,
+    "statusesCount": 265654,
+    "lastStatusAt": "2025-07-10",
+    "hideCollections": false,
+    "emojis": [],
+    "fields": []
+  },
+  "mediaAttachments": [],
+  "mentions": [],
+  "tags": [
+    [
+      "Object"
+    ],
+    [
+      "Object"
+    ]
+  ],
+  "emojis": [],
+  "quote": null,
+  "card": {
+    "url": "https://www.cna.com.tw/news/amov/202506280034.aspx",
+    "title": "從電影看見台灣 台巴藝文協會拜會駐聖保羅經文處",
+    "description": "台巴藝術文化交流協會會長謝如欣今天偕同副會長、聖保羅大學電影學院教授梅洛拜會駐聖保羅經文處長朱怡靜，雙方針對未來如何持續 在巴西推廣台灣藝術文化進行交流。",
+    "language": "zh",
+    "type": "link",
+    "authorName": "中央通訊社 Central News Agency",
+    "authorUrl": "https://www.cna.com.tw",
+    "providerName": "中央通訊社 Central News Agency",
+    "providerUrl": "",
+    "html": "",
+    "width": 662,
+    "height": 348,
+    "image": "https://files.mastodon.social/cache/preview_cards/images/153/107/381/original/971d3d2eb144888f.jpg",
+    "imageDescription": "",
+    "embedUrl": "",
+    "blurhash": "UI8OlWkD01WCx9j=RjWB4Tax_2j[IVWE%Lt7",
+    "publishedAt": "2025-06-28T01:54:00.000Z",
+    "authors": [
+      "Array"
+    ]
+  },
+  "poll": null
+}
+

@@ -4,7 +4,7 @@ import { NInfiniteScroll } from "naive-ui";
 
 const hashtagsData = ref([]);
 const loading = ref(false);
-const noMore = computed(() => hashtagsData.value.length > 100)
+const noMore = computed(() => hashtagsData.value.length > 100);
 
 import store from "~/composable/store";
 import {
@@ -19,14 +19,6 @@ const instanceUrl =
 const accessToken =
   useAccessTokenStore().getAccessToken || store.session.get("accessToken");
 
-const props = defineProps({
-  queryText: {
-    type: String,
-    required: false,
-    default: "",
-  },
-});
-
 onMounted(async () => {
   await handleLoad();
 });
@@ -36,14 +28,13 @@ watch(
   async () => {
     if (queryStore.getQueryText) {
       hashtagsData.value = [];
-      props.queryText = queryStore.getQueryText;
       await handleLoad();
     }
   },
 );
 
 async function handleLoad() {
-  if (!props.queryText) {
+  if (!queryStore.getQueryText) {
     return;
   }
 
@@ -53,11 +44,17 @@ async function handleLoad() {
 
   loading.value = true;
 
-  const data = await getHashTagsData(props.queryText, hashtagsData.value.length);
+  const data = await getHashTagsData(
+    queryStore.getQueryText,
+    hashtagsData.value.length,
+     instanceUrl,
+     accessToken,
+  );
   if (!data) {
     console.warn("no more data");
+    loading.value = false;
+    return ;
   }
-
   hashtagsData.value.push(...data);
   loading.value = false;
 }
@@ -106,6 +103,7 @@ async function handleLoad() {
   cursor: pointer;
   width: 100%;
   height: 100%;
+
   &:hover,
   &:focus-within {
     background-color: skyblue;

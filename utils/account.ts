@@ -48,22 +48,19 @@ export async function unFollowPerson(
   }
 }
 
-import store from "~/composable/store";
-import { useInstanceUrlStore, useAccessTokenStore } from "~/store";
-
-const instanceUrl: string | null =
-  useInstanceUrlStore().getInstanceUrl || store.session.get("instanceURL");
-const accessToken: string | null =
-  useAccessTokenStore().getAccessToken || store.session.get("accessToken");
-
-export async function getAccountsData(queryText: string , currentDataCount : number) {
+export async function getAccountsData(
+  queryText: string,
+  currentDataCount: number,
+  instanceUrl: string,
+  accessToken: string,
+) {
   try {
     const res = await axios.post("/api/get_search_result", {
       url: instanceUrl,
       accessToken: accessToken,
       queryText: queryText,
       type: "accounts",
-      offset : currentDataCount + 1,
+      offset: currentDataCount,
     });
     const data = res.data;
     console.log("account data", data);
@@ -73,14 +70,19 @@ export async function getAccountsData(queryText: string , currentDataCount : num
   }
 }
 
-export async function getHashTagsData(queryText: string, currentDataCount :number ) {
+export async function getHashTagsData(
+  queryText: string,
+  currentDataCount: number,
+  instanceUrl: string,
+  accessToken: string,
+) {
   try {
     const res = await axios.post("/api/get_search_result", {
       url: instanceUrl,
       accessToken: accessToken,
       queryText: queryText,
       type: "hashtags",
-      offset : currentDataCount + 1,
+      offset: currentDataCount,
     });
     const data = res.data;
     console.log("hashtags data", data);
@@ -90,14 +92,19 @@ export async function getHashTagsData(queryText: string, currentDataCount :numbe
   }
 }
 
-export async function getStatusesData(queryText: string, currentDataCount :number ) {
+export async function getStatusesData(
+  queryText: string,
+  currentDataCount: number,
+  instanceUrl: string,
+  accessToken: string,
+) {
   try {
     const res = await axios.post("/api/get_search_result", {
       url: instanceUrl,
       accessToken: accessToken,
       queryText: queryText,
       type: "statuses",
-      offset : currentDataCount + 1,
+      offset: currentDataCount,
     });
     const data = res.data;
     console.log("statuses data", data);

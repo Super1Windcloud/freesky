@@ -6,10 +6,10 @@ const loadingStatus = ref(false);
 </script>
 
 <template>
-  <div v-if="!loadingStatus" class="skeleton">
-    <n-skeleton text :repeat="10" />
-    <n-skeleton text style="width: 860px" />
-  </div>
+    <div v-if="!loadingStatus" class="skeleton">
+      <n-skeleton text :repeat="10" />
+      <n-skeleton text style="width: 860px" />
+    </div>
 </template>
 
 <style scoped>

@@ -10,13 +10,17 @@ export default defineEventHandler(async (event) => {
     url: body.url,
     accessToken: body.accessToken,
   });
+  let limit = 40;
+  if (body.type === "statuses") {
+    limit = 10;
+  }
 
   const results = await client.v2.search.list({
     q: body.queryText, // 你的搜索关键词
     resolve: true, // 是否解析外部实例用户，推荐设置 true
-    limit: 100, // 可选，限制每类返回的条数
+    limit: limit, // 可选，限制每类返回的条数
     type: body.type, // 可选，"accounts" | "hashtags" | "statuses",
-    offset:   body.offset
+    offset: body.offset,
   });
 
   let datas;
@@ -35,23 +39,18 @@ export default defineEventHandler(async (event) => {
     });
   } else if (body.type === "hashtags") {
     const hashtags = results.hashtags;
-    // console.log(hashtags);
+    console.log(hashtags);
     datas = hashtags.map((result: any) => {
       return {
         id: result.id,
         name: result.name,
         url: result.url,
-      }
+      };
     });
-
   } else if (body.type === "statuses") {
     const statuses = results.statuses;
-    console.log(statuses);
-    datas = statuses.map((result: any) => {
-      return {
-         id : result.id,
-      }
-    })
+    // console.log(statuses);
+    datas = statuses;
   }
 
   return datas;
