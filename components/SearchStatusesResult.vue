@@ -93,9 +93,10 @@ async function handleLoad() {
       typeof data[0][i] != "boolean"
     ) {
       console.dir(typeof data[0][i], i);
+      console.dir(data[0][i]);
     }
   }
-  console.dir(data[0].tags);
+  // console.dir(data[0].tags);
   postsContentList.value.push(...data);
   loading.value = false;
   noMore.value = false;
@@ -104,32 +105,62 @@ async function handleLoad() {
 
 <template>
   <div class="container">
-    <n-infinite-scroll :distance="10" @load="handleLoad">
+    <n-infinite-scroll
+      size="30"
+      :x-scrollable="false"
+      :distance="10"
+      @load="handleLoad"
+    >
       <div v-for="(item, index) in postsContentList" :key="index" class="posts">
         <section class="post-card">
           <div class="header">
             <img
-              style="width: 50px; height: 50px; border-radius: 20%"
+              style="
+                margin-top: 10px;
+                width: 50px;
+                height: 50px;
+                border-radius: 20%;
+              "
               :src="item.account.avatar"
               class="avatar"
               alt="avatar"
             />
             <div class="account-name">
-              <div style="font-weight: bold;opacity: 1.2 ">{{ item.account.displayName || item.account.username }}</div>
+              <div style="font-weight: bold; opacity: 1.2">
+                {{ item.account.displayName || item.account.username }}
+              </div>
               <div style="opacity: 0.8">{{ item.account.acct }}</div>
             </div>
             <div class="publish-time">
               {{ dayjs(item.createdAt).format("YYYY-MM-DD HH:mm:ss") }}
             </div>
           </div>
-          <div class="content">
-            <h2>#{{ item.tags[0]?.name }}</h2>
-            <h3>
-              {{ item.card?.title }}
-            </h3>
-            <p>{{ item.card?.description  || item?.content }}</p>
-            <p>{{ item?.content }}</p>
+          <div class="content" v-if="item.card">
+            <h2 class="title">
+              <a target="_blank" :href="item.tags[0]?.url">{{
+                item.tags[0]?.name
+              }}</a>
+              <span style="margin-left: 10px">{{ item.tags[1]?.name }}</span>
+            </h2>
+            <h3>{{ item.card?.title }}</h3>
+            <p>{{ item.card?.description }}</p>
+            <a
+              target="_blank"
+              :href="item.card?.url"
+              class="card-url"
+              style="color: darkorange"
+              >{{ item.card?.url }}</a
+            >
+            <img alt="card-img" :src="item.card?.image" />
           </div>
+          <section v-else class="media-attachments">
+            <h3>{{ item.mediaAttachments[0]?.description }}</h3>
+            <div v-html="item.content"></div>
+            <img
+              alt="preview-url"
+              :src="item.mediaAttachments[0]?.previewUrl"
+            />
+          </section>
         </section>
         <NDivider style="border: 1px solid white; width: calc(100% + 20px)" />
       </div>

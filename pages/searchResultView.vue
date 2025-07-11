@@ -54,6 +54,14 @@ watch(
   },
 );
 
+watch(()=>route.query.queryText, (queryText) => {
+  if (queryText) {
+    console.log("route query change to", queryText);
+    search.value = queryText;
+    queryStore.setQueryText(queryText);
+  }
+})
+
 async function getAccountsData(queryText: string) {
   try {
     const res = await axios.post("/api/get_search_result", {
