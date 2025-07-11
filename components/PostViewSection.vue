@@ -60,6 +60,7 @@ import PostsContentList from "@/components/PostsContentList.vue";
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width : 80%;
 }
 
 .carousel-img {

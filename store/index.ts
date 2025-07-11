@@ -57,12 +57,10 @@ export const useAccessTokenStore = defineStore("useAccessTokenStore", {
   },
 });
 
-
 export const useLangStore = defineStore("useLangStore", {
   state: () => ({
     lang: "",
-  })
-  ,
+  }),
   getters: {
     getLang: (state) => {
       return state.lang;
@@ -73,9 +71,9 @@ export const useLangStore = defineStore("useLangStore", {
       this.lang = lang;
     },
   },
-})
+});
 
-export  const  useQueryStore = defineStore("useQueryStore", {
+export const useQueryStore = defineStore("useQueryStore", {
   state: () => ({
     query: "",
   }),
@@ -89,4 +87,23 @@ export  const  useQueryStore = defineStore("useQueryStore", {
       this.query = query;
     },
   },
-})
+});
+
+export const useSearchPostDetailStore = defineStore(
+  "useSearchPostDetailStore",
+  {
+    state: () => ({
+      searchPostDetail: {},
+    }),
+    getters: {
+      getSearchPostDetail: (state) => {
+        return state.searchPostDetail;
+      },
+    },
+    actions: {
+      setSearchPostDetail(postDetail:  Object) {
+        this.searchPostDetail = postDetail;
+      },
+    },
+  },
+);

@@ -23,6 +23,9 @@ onMounted(() => {
     setLocale("en");
   }
 });
+
+
+
 </script>
 <template>
   <div class="main-content">
@@ -38,5 +41,6 @@ onMounted(() => {
   align-items: flex-start;
   height: 100%;
   width: 100%;
+
 }
 </style>

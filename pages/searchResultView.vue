@@ -2,6 +2,7 @@
 definePageMeta({
   ssr: false,
 });
+
 import { onMounted, ref, watch } from "vue";
 import { NDivider, NH1, NTabs, NTabPane } from "naive-ui";
 import SearchAccountsData from "~/components/SearchAccountsData.vue";
@@ -114,7 +115,7 @@ onMounted(() => {
       <n-tab-pane
         name="accounts"
         :tab="$t('accounts')"
-        style="font-weight: bold; width: 100%; height: 740px; overflow: auto"
+        style="font-weight: bold; width: 100%; height: 740px;"
       >
         <KeepAlive>
           <SearchAccountsData />
@@ -123,7 +124,7 @@ onMounted(() => {
       <n-tab-pane
         name="hashtags"
         :tab="$t('hashtags')"
-        style="font-weight: bold; width: 100%; height: 740px; overflow: hidden"
+        style="font-weight: bold; width: 100%; height: 740px;"
       >
         <KeepAlive>
           <SearchHashtagsResult />
@@ -132,7 +133,7 @@ onMounted(() => {
       <n-tab-pane
         name="statuses"
         :tab="$t('statuses')"
-        style="font-weight: bold; width: 100%; height: 740px; overflow: hidden"
+        style="font-weight: bold; width: 100%; height: 740px;"
       >
         <KeepAlive>
           <SearchStatusesResult />
@@ -142,4 +143,7 @@ onMounted(() => {
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+
+</style>

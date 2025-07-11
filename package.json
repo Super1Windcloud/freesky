@@ -7,7 +7,10 @@
     "email": "ss1178933440@gmail.com"
   },
   "version": "0.0.1",
-  "description": "Nuxt.js project",
+  "description": "A mastodon-like web client built with Nuxt.js and Vue.js",
+  "keywords": [
+    "mastodon,vue3,nuxt, vue-router,pinia,masto"
+  ],
   "homepage": "https://github.com/super1windcloud/freesky",
   "scripts": {
     "build": "nuxt build",
@@ -23,6 +26,7 @@
   "dependencies": {
     "@fedify/fedify": "^1.7.2",
     "@pinia/nuxt": "0.11.1",
+    "@vueuse/nuxt": "13.5.0",
     "axios": "^1.10.0",
     "compare-versions": "^6.1.1",
     "dayjs": "^1.11.13",
@@ -44,7 +48,14 @@
     "@nuxtjs/i18n": "10.0.0-rc.2",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^24.0.10",
+    "autoprefixer": "^10.4.21",
     "naive-ui": "^2.42.0",
+    "postcss": "^8.5.6",
     "prettier": "^3.6.2"
-  }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }

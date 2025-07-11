@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
     });
   } else if (body.type === "hashtags") {
     const hashtags = results.hashtags;
-    console.log(hashtags);
+    // console.log(hashtags);
     datas = hashtags.map((result: any) => {
       return {
         id: result.id,

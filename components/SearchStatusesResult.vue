@@ -7,8 +7,11 @@ import {
   useInstanceUrlStore,
   useAccessTokenStore,
   useQueryStore,
+  useSearchPostDetailStore,
 } from "~/store";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 /**
  * 0: "id"
  * 1: "createdAt"
@@ -41,14 +44,20 @@ import {
  * 28: "poll"
  * */
 const instanceUrl =
-  useInstanceUrlStore().getInstanceUrl || store.session.get("instanceURL");
+  useInstanceUrlStore().getInstanceUrl ||
+  store.session.get("instanceURL") ||
+  "";
 const accessToken =
-  useAccessTokenStore().getAccessToken || store.session.get("accessToken");
+  useAccessTokenStore().getAccessToken ||
+  store.session.get("accessToken") ||
+  "";
 
 const postsContentList = ref<Object[]>([]);
 const loading = ref(false);
 const noMore = ref(false);
 const queryStore = useQueryStore();
+const languages = usePreferredLanguages();
+const postDetailStore = useSearchPostDetailStore();
 
 watch(
   () => queryStore.getQueryText,
@@ -101,6 +110,31 @@ async function handleLoad() {
   loading.value = false;
   noMore.value = false;
 }
+
+async function enterPostDetailPage(item: Object) {
+  if (languages.value) {
+    const langs = languages.value;
+    if (typeof langs === "object" && langs.length > 0) {
+      if (langs[0] === "zh-CN") {
+        postDetailStore.setSearchPostDetail(item);
+        await router.push({
+          path: "/zh/postDetailInfo/",
+          query: {
+            id: item.id,
+          },
+        });
+        return;
+      }
+    }
+  }
+  postDetailStore.setSearchPostDetail(item);
+  await router.push({
+    path: "/postDetailInfo/",
+    query: {
+      id: item.id,
+    }
+  })
+}
 </script>
 
 <template>
@@ -112,7 +146,11 @@ async function handleLoad() {
       @load="handleLoad"
     >
       <div v-for="(item, index) in postsContentList" :key="index" class="posts">
-        <section class="post-card">
+        <section
+          :id="item.id"
+          @click="enterPostDetailPage(item)"
+          class="post-card"
+        >
           <div class="header">
             <img
               style="
@@ -151,14 +189,15 @@ async function handleLoad() {
               style="color: darkorange"
               >{{ item.card?.url }}</a
             >
-            <img alt="card-img" :src="item.card?.image" />
+            <img  style="border-radius: 10px"  alt="" :src="item.card?.image" />
           </div>
           <section v-else class="media-attachments">
             <h3>{{ item.mediaAttachments[0]?.description }}</h3>
             <div v-html="item.content"></div>
             <img
+              style="border-radius: 10px"
               alt="preview-url"
-              :src="item.mediaAttachments[0]?.previewUrl"
+              :src="item.mediaAttachments[0]?.previewUrl || item.mediaAttachments[0]?.url || item.mediaAttachments[0]?.remoteUrl"
             />
           </section>
         </section>

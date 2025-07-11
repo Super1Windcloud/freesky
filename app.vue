@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import Lenis from "lenis";
-
 definePageMeta({
   head: {
     link: [
@@ -15,10 +13,11 @@ definePageMeta({
   },
 });
 
-const lenis = new Lenis({
-  anchors: true,
-  autoRaf: true,
-  allowNestedScroll: true,
+const isDark = useDark({
+  selector: "html",
+  valueDark: "dark",
+  valueLight: "light",
+  storageKey: "vueuse-color-scheme",
 });
 
 </script>
@@ -29,7 +28,7 @@ const lenis = new Lenis({
   </NuxtLayout>
 </template>
 
-<style>
+<style scoped>
 html,
 body,
 #__nuxt {
@@ -37,5 +36,14 @@ body,
   width: 100%;
   margin: 0;
   padding: 0;
+}
+
+.theme-toggle {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-align: center;
 }
 </style>

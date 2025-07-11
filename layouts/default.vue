@@ -51,10 +51,11 @@ onMounted(() => {
 }
 
 .center {
-  height: 100%;
-  width: 1000px;
+  height: 100vh;
+  width:  800px;
   margin-left: 50px;
   padding: 0;
+  //overflow: auto;
   background-color: transparent;
 }
 

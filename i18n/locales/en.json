@@ -46,8 +46,12 @@
   "statuses": "Statuses",
   "comments": "Comments",
   "likes": "Likes",
-  "Recommendations" : "Recommendations Follow User",
-  "followersCount" : "Followers Count",
-  "followingCount" : "Following Count",
-  "postsCount" : "Posts Count"
+  "Recommendations": "Recommendations Follow User",
+  "followersCount": "Followers Count",
+  "followingCount": "Following Count",
+  "postsCount": "Posts Count",
+  "share": "Share",
+  "favourite": "Favourite",
+  "comment": "Comment",
+  "more": "More"
 }

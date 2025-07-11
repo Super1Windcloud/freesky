@@ -52,5 +52,9 @@
   "Recommendations": "推荐关注用户",
   "followersCount": "粉丝数",
   "followingCount": "关注数",
-  "postsCount": "帖子数"
+  "postsCount": "帖子数",
+  "share": "分享",
+  "favourite": "收藏",
+  "comment": "评论",
+  "more": "更多"
 }

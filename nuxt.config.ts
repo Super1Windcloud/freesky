@@ -12,7 +12,13 @@ export default defineNuxtConfig({
   },
 
   ssr: true,
-  modules: ["nuxtjs-naive-ui", "@nuxtjs/i18n", "@pinia/nuxt", "nuxt-toast"],
+  modules: [
+    "nuxtjs-naive-ui",
+    "@nuxtjs/i18n",
+    "@pinia/nuxt",
+    "nuxt-toast",
+    "@vueuse/nuxt",
+  ],
   spaLoadingTemplate: false,
   app: {
     baseURL: "/",
@@ -49,5 +55,17 @@ export default defineNuxtConfig({
   },
   routeRules: {
     "/zh/searchResultView/**": { ssr: false },
+    "/searchResultView/**": { ssr: false },
+    "/zh/postDetailInfo/**": { ssr: false },
+    "/postDetailInfo/**": { ssr: false },
+    "zh/accountDetailInfo/**": { ssr: false },
+    "/accountDetailInfo/**": { ssr: false },
+    "/zh/topicDetailPage/**": { ssr: false },
+    "/topicDetailPage/**": { ssr: false },
+  },
+  postcss: {
+    plugins: {
+      autoprefixer: {},
+    },
   },
 });

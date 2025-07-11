@@ -131,7 +131,6 @@ async function handleLoad() {
           <div
             style="
               font-size: small;
-              overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
               text-wrap: nowrap;
@@ -188,6 +187,7 @@ async function handleLoad() {
   align-items: center;
   justify-content: start;
   cursor: pointer;
+  margin-top: 10px;
 }
 
 .follow {
