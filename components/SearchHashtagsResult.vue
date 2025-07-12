@@ -113,7 +113,7 @@ async function handleLoad() {
 }
 
 .container {
-  border: 2px solid lightgray;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 20px;
   height: 97%;
   padding: 7px 10px;

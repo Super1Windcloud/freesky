@@ -13,12 +13,6 @@ definePageMeta({
   },
 });
 
-const isDark = useDark({
-  selector: "html",
-  valueDark: "dark",
-  valueLight: "light",
-  storageKey: "vueuse-color-scheme",
-});
 
 </script>
 

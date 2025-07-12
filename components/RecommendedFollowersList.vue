@@ -4,6 +4,7 @@ import axios from "axios";
 
 import { useInstanceUrlStore, useAccessTokenStore } from "~/store";
 import store from "~/composable/store";
+
 const instanceUrl =
   useInstanceUrlStore().getInstanceUrl || store.session.get("instanceURL");
 const accessToken =
@@ -73,7 +74,7 @@ async function unFollowPerson(id: string, index: number) {
 
 <template>
   <div class="container">
-    <h1 >{{ $t("Recommendations") }}</h1>
+    <h1>{{ $t("Recommendations") }}</h1>
     <div class="user" v-for="(item, index) in recommendList" :key="index">
       <img
         style="margin-left: 30px; border-radius: 30%; width: 50px; height: 50px"
@@ -139,9 +140,8 @@ async function unFollowPerson(id: string, index: number) {
 </template>
 
 <style scoped>
-
 .container {
-  border: 2px solid lightgray;
+  border: 1px solid lightsalmon;
   border-radius: 20px;
   width: 100%;
   height: 400px;
@@ -151,7 +151,7 @@ async function unFollowPerson(id: string, index: number) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap :10px;
+  gap: 10px;
 }
 
 .user {
@@ -176,5 +176,10 @@ async function unFollowPerson(id: string, index: number) {
   &:hover {
     background-color: orchid;
   }
+}
+
+button {
+  background-color: slategray;
+  color: inherit;
 }
 </style>

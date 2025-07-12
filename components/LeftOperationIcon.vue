@@ -2,13 +2,15 @@
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 import { onMounted } from "vue";
-import {  useLangStore } from "~/store"
+import { useLangStore } from "~/store";
+
 const clickedItem = ref<string>("home");
 const router = useRouter();
 const lang = ref("");
 const { setLocale } = useI18n();
 
 const langStore = useLangStore();
+const colorMode = useColorMode();
 
 onMounted(() => {
   function getPreferredLanguage() {
@@ -95,6 +97,17 @@ const skipToFavorite = () => {
     router.push("/favorites");
   }
 };
+
+const theme =ref('');
+
+const toggleColorMode = () => {
+  colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
+  theme.value = colorMode.preference;
+};
+
+onMounted(() => {
+   theme.value= colorMode.preference;
+})
 </script>
 
 <template>
@@ -264,7 +277,23 @@ const skipToFavorite = () => {
       </svg>
       <span class="icon-label">{{ $t("setting") }}</span>
     </div>
+    <div
+      class="color-mode icon-item"
+      @click.stop="toggleColorMode"
+      title="深色模式"
+      :class="{ selected: clickedItem === 'theme' }"
+    >
+      <span v-if="theme=== 'light'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><!-- Icon from HeroIcons by Refactoring UI Inc - https://github.com/tailwindlabs/heroicons/blob/master/LICENSE --><path fill="currentColor" d="M8 1a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 8 1m2.5 7a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0m2.45-3.89a.75.75 0 1 0-1.06-1.06l-1.062 1.06a.75.75 0 0 0 1.061 1.062zM15 8a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 15 8m-3.11 4.95a.75.75 0 0 0 1.06-1.06l-1.06-1.062a.75.75 0 0 0-1.062 1.061zM8 12a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 8 12m-2.828-.11a.75.75 0 0 0-1.061-1.062L3.05 11.89a.75.75 0 1 0 1.06 1.06zM4 8a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 4 8m.11-2.828A.75.75 0 0 0 5.173 4.11L4.11 3.05a.75.75 0 1 0-1.06 1.06z"/></svg>
+      </span>
+      <span v-else>
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from HeroIcons by Refactoring UI Inc - https://github.com/tailwindlabs/heroicons/blob/master/LICENSE --><path fill="currentColor" fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A9 9 0 0 0 9 6a9 9 0 0 0 9 9a9 9 0 0 0 3.463-.69a.75.75 0 0 1 .981.98a10.5 10.5 0 0 1-9.694 6.46c-5.799 0-10.5-4.7-10.5-10.5c0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162" clip-rule="evenodd"/></svg>
+      </span>
+      <span class="icon-label">{{ $t("theme") }}</span>
+    </div>
+
   </div>
+
 </template>
 
 <style scoped>

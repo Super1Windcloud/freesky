@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@fedify/fedify": "^1.7.2",
+    "@nuxtjs/color-mode": "3.5.2",
     "@pinia/nuxt": "0.11.1",
     "@vueuse/nuxt": "13.5.0",
     "axios": "^1.10.0",
@@ -46,16 +47,13 @@
   "packageManager": "pnpm@10.12.4+sha512.5ea8b0deed94ed68691c9bad4c955492705c5eeb8a87ef86bc62c74a26b037b08ff9570f108b2e4dbd1dd1a9186fea925e527f141c648e85af45631074680184",
   "devDependencies": {
     "@nuxtjs/i18n": "10.0.0-rc.2",
+    "@tailwindcss/postcss": "^4.1.11",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^24.0.10",
     "autoprefixer": "^10.4.21",
     "naive-ui": "^2.42.0",
     "postcss": "^8.5.6",
-    "prettier": "^3.6.2"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "prettier": "^3.6.2",
+    "tailwindcss": "^4.1.11"
+  }
 }

@@ -58,7 +58,6 @@ const handleSearch = async () => {
       v-model="searchText"
       type="text"
       class="search-input"
-      placeholder="something to search..."
       @keyup.enter="handleSearch"
     />
     <button class="search-button" @click="handleSearch">{{ search }}</button>
@@ -72,23 +71,16 @@ const handleSearch = async () => {
   align-items: center;
   width: 100%;
   height: 50px;
-  border: 1px solid lightgray;
+  border: 1px solid  lightpink;
   border-radius: 25px;
   padding: 0 16px;
-  background-color: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  filter: drop-shadow(0 1px 3px lightpink);
 
   &:hover,
   &:focus-within {
     border-color: skyblue;
     filter: drop-shadow(0 4px 8px rgba(64, 158, 255, 0.3));
   }
-}
-
-.search-icon {
-  margin-right: 12px;
-  color: lightgray;
 }
 
 .search-input {
@@ -98,14 +90,14 @@ const handleSearch = async () => {
   outline: none;
   font-size: 20px;
   background-color: transparent;
-  color: lightgray;
   font-weight: bold;
+  color: inherit;
 }
 
 .search-button {
   border: none;
   background-color: transparent;
-  padding: 6px 16px;
+  padding: 6px 6px;
   border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -113,5 +105,12 @@ const handleSearch = async () => {
 
 .search-button:hover {
   background-color: #66b1ff;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: inherit;
 }
 </style>

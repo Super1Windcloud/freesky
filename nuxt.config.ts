@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "nuxt-toast",
     "@vueuse/nuxt",
+    "@nuxtjs/color-mode"
   ],
   spaLoadingTemplate: false,
   app: {
@@ -63,9 +64,22 @@ export default defineNuxtConfig({
     "/zh/topicDetailPage/**": { ssr: false },
     "/topicDetailPage/**": { ssr: false },
   },
+  css: ["assets/css/main.css"],
   postcss: {
     plugins: {
       autoprefixer: {},
     },
   },
+  colorMode: {
+    preference: 'system', // default value of $colorMode.preference
+    fallback: 'light', // fallback value if not system preference found
+    hid: 'nuxt-color-mode-script',
+    globalName: '__NUXT_COLOR_MODE__',
+    componentName: 'ColorScheme',
+    classPrefix: '',
+    classSuffix: '',
+    storage: 'localStorage', // or 'sessionStorage' or 'cookie'
+    storageKey: 'nuxt-color-mode'
+  }
+
 });

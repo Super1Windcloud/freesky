@@ -106,7 +106,7 @@ onMounted(() => {
     </n-h1>
     <n-tabs
       default-value="accounts"
-      tab-style="font-weight : bold;background-color : #2b2b2b;"
+      tab-style="font-weight : bold;"
       type="segment"
       animated
       :addable="false"

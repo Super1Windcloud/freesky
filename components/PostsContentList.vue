@@ -8,7 +8,7 @@ const loadingStatus = ref(false);
 <template>
     <div v-if="!loadingStatus" class="skeleton">
       <n-skeleton text :repeat="10" />
-      <n-skeleton text style="width: 860px" />
+      <n-skeleton text   />
     </div>
 </template>
 
@@ -17,5 +17,7 @@ const loadingStatus = ref(false);
   margin-top: 30px;
   filter: blur(1px);
   opacity: 0.2;
+  width: 100%;
+  height: 100%;
 }
 </style>

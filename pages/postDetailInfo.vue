@@ -6,7 +6,7 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 
 const postDetailStore = useSearchPostDetailStore();
-const postDetail = reactive({});
+const postDetail = reactive({}) as any;
 import { useInstanceUrlStore, useAccessTokenStore } from "~/store";
 import store from "~/composable/store";
 import { NDropdown } from "naive-ui";
@@ -457,7 +457,7 @@ img {
   &:hover {
     cursor: pointer;
     opacity: 0.8;
-    box-shadow: 0 0 10px 5px lightgray;
+    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
   }
 }
 </style>

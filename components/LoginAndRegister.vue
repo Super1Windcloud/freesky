@@ -27,14 +27,13 @@ onMounted(() => {
     <div class="login" @click.stop="openLoginDialog">
       <button
         style="
-          border: 1px solid lightgray;
           border-radius: 30px;
           margin-top: 20px;
-          width:  100%;
+          width: 100%;
           height: 50px;
           font-size: 25px;
-          color: white;
           font-weight: bold;
+          color : inherit;
         "
       >
         {{ loginValue }}
@@ -44,14 +43,13 @@ onMounted(() => {
     <div class="register" @click.stop="openRegisterDialog">
       <button
         style="
-          border: 2px solid lightgray;
           border-radius: 30px;
           margin-top: 20px;
           width: 100%;
           height: 50px;
           font-size: 25px;
-          color: white;
           font-weight: bold;
+          color : inherit;
         "
       >
         {{ registerValue }}
@@ -62,8 +60,20 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.register {
+button {
+  border: 1px solid rgba(255, 255, 255, 0.3);
   background-color: transparent;
+}
+
+.register,
+.login {
+  background-color: transparent;
+
+  button {
+    :hover {
+      background-color: lightpink;
+    }
+  }
 
   :hover {
     background-color: lightpink;

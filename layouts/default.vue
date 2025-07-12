@@ -27,13 +27,17 @@ onMounted(() => {
 
 <template>
   <div class="layout-container">
-    <LeftOperationIcon class="left" />
+    <div class="left">
+      <LeftOperationIcon />
+    </div>
     <KeepAlive>
-      <div class="center">
+      <div class="center-container">
         <slot />
       </div>
     </KeepAlive>
-    <RigisterSection class="right" />
+    <div class="right">
+      <RigisterSection />
+    </div>
   </div>
 </template>
 
@@ -41,30 +45,34 @@ onMounted(() => {
 .layout-container {
   display: flex;
   flex-direction: row;
-  height: 100%;
+  align-self: center;
+  height: 100vh;
   width: 100%;
   position: relative;
   font-family: Arial, sans-serif;
   justify-content: center;
-  align-items: start;
+  align-items: center;
   padding: 0;
 }
 
-.center {
+.center-container {
   height: 100vh;
-  width:  800px;
-  margin-left: 50px;
   padding: 0;
-  //overflow: auto;
+  width: 30%;
   background-color: transparent;
+}
+
+.left  {
+  height: 100%;
+  width: 10%;
+  background-color: transparent;
+  padding: 0;
 }
 
 .right {
   height: 100%;
-  width: 500px;
-  flex-shrink: 0;
+  width: 25%;
   background-color: transparent;
-  margin-left: 60px;
   padding: 0;
 }
 </style>

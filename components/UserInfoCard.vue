@@ -24,15 +24,13 @@ function logoutHandle() {
 
 const account = reactive({});
 
-function  openAccountProfile(){
-
-}
+function openAccountProfile() {}
 
 onMounted(async () => {
   const accessToken =
-    store.session.get("accessToken") ||  instanceUrlObj.getAccessToken;
+    store.session.get("accessToken") || instanceUrlObj.getAccessToken;
   const instanceUrl =
-    store.session.get("instanceURL") ||  accessTokenObj.getInstanceUrl;
+    store.session.get("instanceURL") || accessTokenObj.getInstanceUrl;
 
   if (accessToken && instanceUrl) {
     try {
@@ -83,11 +81,11 @@ onMounted(async () => {
         "
       >
         <h2 style="margin: 0; padding: 0">{{ account.username }}</h2>
-        <div style="color: lightgray">{{ account.url }}</div>
+        <div style="color: inherit">{{ account.url }}</div>
       </div>
     </div>
     <div
-      style="border-bottom: 3px solid whitesmoke; width: 100%; margin: 5px 0"
+      style="border-bottom: 1px solid lightgrey; width: 100%; margin: 5px 0"
     ></div>
 
     <div
@@ -129,7 +127,7 @@ onMounted(async () => {
         src="../assets/logout.png"
         alt="logout"
       />
-      <span>{{ $t("logout") }} {{ account.username}}</span>
+      <span>{{ $t("logout") }} {{ account.username }}</span>
     </div>
   </div>
 </template>
@@ -143,13 +141,10 @@ onMounted(async () => {
   height: 180px;
   width: inherit;
   border-radius: 20px;
-  border-width: 2px;
-  border-color: whitesmoke;
-  border-style: solid;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   margin-top: 30px;
+  border: thin solid rgba(255, 255, 255, 0.3);
 }
-
 
 .add-account:hover,
 .logout:hover {
@@ -157,13 +152,11 @@ onMounted(async () => {
   transform: scale(1.05);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
 .add-account,
 .logout {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   border-radius: 10px;
 }
-
-
-
 </style>
