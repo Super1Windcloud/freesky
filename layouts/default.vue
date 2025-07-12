@@ -47,7 +47,9 @@ onMounted(() => {
   flex-direction: row;
   align-self: center;
   height: 100vh;
-  width: 100%;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
   position: relative;
   font-family: Arial, sans-serif;
   justify-content: center;
@@ -56,9 +58,9 @@ onMounted(() => {
 }
 
 .center-container {
-  height: 100vh;
+  height: 100%;
   padding: 0;
-  width: 30%;
+  width: 40%;
   background-color: transparent;
 }
 
@@ -70,9 +72,10 @@ onMounted(() => {
 }
 
 .right {
+  margin-left:1%;
   height: 100%;
   width: 25%;
-  background-color: transparent;
+  background-color: transparent ;
   padding: 0;
 }
 </style>

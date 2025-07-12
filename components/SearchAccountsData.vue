@@ -175,7 +175,7 @@ async function handleLoad() {
 
 <style scoped>
 .container {
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 20px;
   height: 97%;
   padding: 7px 10px;
@@ -200,10 +200,15 @@ async function handleLoad() {
   text-align: center;
   text-decoration: none;
   font-weight: bold;
+  border :none;
   background-color: darkgreen;
 
   &:hover {
     background-color: orchid;
   }
+}
+
+button {
+  color : inherit;
 }
 </style>

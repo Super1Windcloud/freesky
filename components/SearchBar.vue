@@ -60,7 +60,6 @@ const handleSearch = async () => {
       class="search-input"
       @keyup.enter="handleSearch"
     />
-    <button class="search-button" @click="handleSearch">{{ search }}</button>
   </div>
 </template>
 
@@ -73,7 +72,6 @@ const handleSearch = async () => {
   height: 50px;
   border: 1px solid  lightpink;
   border-radius: 25px;
-  padding: 0 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
   &:hover,

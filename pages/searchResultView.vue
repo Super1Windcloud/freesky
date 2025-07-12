@@ -2,9 +2,9 @@
 definePageMeta({
   ssr: false,
 });
-
 import { onMounted, ref, watch } from "vue";
-import { NDivider, NH1, NTabs, NTabPane } from "naive-ui";
+import { NDivider, NH2, NTabs, NTabPane } from "naive-ui";
+
 import SearchAccountsData from "~/components/SearchAccountsData.vue";
 import axios from "axios";
 import { useInstanceUrlStore, useAccessTokenStore } from "~/store";
@@ -13,6 +13,7 @@ import { useQueryStore } from "~/store";
 import SearchHashtagsResult from "~/components/SearchHashtagsResult.vue";
 import SearchStatusesResult from "~/components/SearchStatusesResult.vue";
 
+const initTable = ref("accounts");
 const instanceUrl =
   useInstanceUrlStore().getInstanceUrl || store.session.get("instanceURL");
 const accessToken =
@@ -55,13 +56,16 @@ watch(
   },
 );
 
-watch(()=>route.query.queryText, (queryText) => {
-  if (queryText) {
-    console.log("route query change to", queryText);
-    search.value = queryText;
-    queryStore.setQueryText(queryText);
-  }
-})
+watch(
+  () => route.query.queryText,
+  (queryText) => {
+    if (queryText) {
+      console.log("route query change to", queryText);
+      search.value = queryText;
+      queryStore.setQueryText(queryText);
+    }
+  },
+);
 
 async function getAccountsData(queryText: string) {
   try {
@@ -100,22 +104,29 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="container" style="width: 95%; height: 90%; margin-top: 40px">
-    <n-h1 style="text-align: center; width: 100%">
+  <main class="container" style="width: 100%; height: 90%; margin-top: 50px">
+    <n-h2 style="text-align: center; width: 100%; color: inherit">
       '{{ search }}' {{ $t("searchResult") }}
-    </n-h1>
+    </n-h2>
+
     <n-tabs
       default-value="accounts"
-      tab-style="font-weight : bold;"
-      type="segment"
-      animated
-      :addable="false"
-      class="custom-tabs"
+      type="bar"
+      justify-content="space-around"
+      style="
+        width: 100%;
+        height: 90%;
+        background-color: transparent;
+        color: inherit;
+      "
+      tab-style="font-weight: bold;background-color: transparent; color : inherit "
+      pane-wrapper-style=" background-color: transparent; color : inherit "
+      pane-style=" background-color: transparent; color : inherit "
     >
       <n-tab-pane
         name="accounts"
         :tab="$t('accounts')"
-        style="font-weight: bold; width: 100%; height: 740px;"
+        style="font-weight: bold; width: 100%; height: 100%"
       >
         <KeepAlive>
           <SearchAccountsData />
@@ -124,7 +135,7 @@ onMounted(() => {
       <n-tab-pane
         name="hashtags"
         :tab="$t('hashtags')"
-        style="font-weight: bold; width: 100%; height: 740px;"
+        style="font-weight: bold; width: 100%; height: 100%"
       >
         <KeepAlive>
           <SearchHashtagsResult />
@@ -133,7 +144,7 @@ onMounted(() => {
       <n-tab-pane
         name="statuses"
         :tab="$t('statuses')"
-        style="font-weight: bold; width: 100%; height: 740px;"
+        style="font-weight: bold; width: 100%; height: 100%"
       >
         <KeepAlive>
           <SearchStatusesResult />
@@ -143,7 +154,4 @@ onMounted(() => {
   </main>
 </template>
 
-<style scoped>
-
-
-</style>
+<style scoped></style>

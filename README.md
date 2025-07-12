@@ -15,7 +15,7 @@
 
 - [x] 登录, 注册Mastodon实例节点
 - [x] 暗色模式,浅色模式, 主题切换
-
+- [x] 兼容Firefox, Chrome, Safari, Edge, Opera
 ---
 
 ## 快速开始

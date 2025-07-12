@@ -55,6 +55,8 @@ onMounted(async () => {
       class="user-info"
       style="
         height: 50%;
+        width:  95%;
+        border-radius: 10%;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -92,8 +94,7 @@ onMounted(async () => {
       class="add-account"
       style="
         height: 25%;
-        width: 100%;
-        margin-left: 40px;
+        width: 95%;
         display: flex;
         text-align: center;
         justify-content: start;
@@ -103,7 +104,7 @@ onMounted(async () => {
     >
       <img
         src="../assets/img.png"
-        style="width: 25px; height: 25px; margin-right: 30px"
+        style="width: 25px; height: 25px; margin-left : 6%;margin-right: 10px;"
         alt="addAccount"
       />
       <span>{{ $t("addAccount") }}</span>
@@ -113,8 +114,7 @@ onMounted(async () => {
       @click.stop="logoutHandle"
       style="
         height: 25%;
-        width: 100%;
-        margin-left: 40px;
+        width: 95%;
         display: flex;
         text-align: center;
         justify-content: start;
@@ -123,7 +123,7 @@ onMounted(async () => {
       "
     >
       <img
-        style="width: 25px; height: 25px; margin-right: 30px"
+        style="width: 25px; height: 25px; margin-left: 6%;margin-right: 10px"
         src="../assets/logout.png"
         alt="logout"
       />
@@ -133,13 +133,18 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.user-info:hover{
+  background-color: rgba(200, 200, 200, 0.2);
+  transform: scale(1.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 .card {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 180px;
-  width: inherit;
+  width: 100%;
   border-radius: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   margin-top: 30px;
@@ -147,7 +152,8 @@ onMounted(async () => {
 }
 
 .add-account:hover,
-.logout:hover {
+.logout:hover
+{
   background-color: rgba(200, 200, 200, 0.2);
   transform: scale(1.05);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -158,5 +164,6 @@ onMounted(async () => {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   border-radius: 10px;
+  width: 50%;
 }
 </style>

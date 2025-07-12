@@ -165,7 +165,7 @@ async function unFollowPerson(id: string, index: number) {
 .follow {
   margin-left: auto;
   margin-right: 30px;
-  width: 100px;
+  width:  100px;
   height: 40px;
   cursor: pointer;
   border-radius: 20px;
