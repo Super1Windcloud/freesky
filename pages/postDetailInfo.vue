@@ -12,7 +12,10 @@ import { NDropdown } from "naive-ui";
 
 const router = useRouter();
 import Lenis from "lenis";
-import { getAccessTokenStorage, getInstanceUrlStorage } from "~/composable/constant";
+import {
+  getAccessTokenStorage,
+  getInstanceUrlStorage,
+} from "~/composable/constant";
 
 const moreOptions = ref([
   {
@@ -33,7 +36,7 @@ const moreOptions = ref([
   },
 ]);
 onMounted(() => {
-  const target = document.querySelector(".post-card") as HTMLElement;
+  const target = document.querySelector(".content") as HTMLElement;
   const lenis = new Lenis({
     wrapper: target,
     anchors: true,
@@ -45,7 +48,7 @@ onMounted(() => {
 const instanceUrl =
   useInstanceUrlStore().getInstanceUrl || getInstanceUrlStorage();
 const accessToken =
-  useAccessTokenStore().getAccessToken ||  getAccessTokenStorage();
+  useAccessTokenStore().getAccessToken || getAccessTokenStorage();
 
 onMounted(async () => {
   if (Object.keys(postDetailStore.getSearchPostDetail).length) {
@@ -185,6 +188,11 @@ function doMoreActions(actionKey: string) {
     }
   }
 }
+
+function openSourcePost() {
+  const url = postDetail.card?.url;
+  window.open(url, "_blank");
+}
 </script>
 
 <template>
@@ -234,10 +242,27 @@ function doMoreActions(actionKey: string) {
           target="_blank"
           :href="postDetail.card?.url"
           class="card-url"
-          style="color: darkorange; font-weight: bold; margin-bottom: 10px"
+          style="
+            color: darkorange;
+            max-width: 50%;
+            width: 50%;
+            white-space: nowrap;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: bold;
+            margin-bottom: 10px;
+          "
           >{{ postDetail.card?.url }}</a
         >
-        <img style="border-radius: 10px" alt="" :src="postDetail.card?.image" />
+        <div class="img-container" @click.stop="openSourcePost()">
+          <img
+            style="border-radius: 10px"
+            alt=""
+            :src="postDetail.card?.image"
+          />
+          <div style="font-size: 1rem">{{ postDetail.card?.title }}</div>
+        </div>
       </div>
       <div v-else class="media-attachments">
         <h3>{{ postDetail.mediaAttachments?.[0]?.description }}</h3>
@@ -313,7 +338,7 @@ function doMoreActions(actionKey: string) {
           title="favourite"
           class="favourite"
           @click.stop="addToUserFavourites"
-          :style="{ color: isFavourite ? 'darkred' : '' }"
+          :style="{ color: isFavourite ? 'red' : '' }"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -408,15 +433,14 @@ function doMoreActions(actionKey: string) {
   flex-direction: column;
   align-items: start;
   justify-content: start;
-  margin-left: 80px;
-  width: 80%;
+  width: 100%;
   height: 100%;
   overflow: auto;
 }
 
 img {
-  width: inherit;
-  height: inherit;
+  width: 100%;
+  height: 100%;
 }
 
 .header {
@@ -428,17 +452,44 @@ img {
 }
 
 .content {
-  border: 1px solid #ccc;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 10px;
   margin-top: 50px;
   border-radius: 30px;
+  overflow: auto;
+  width: 95%;
+  max-width: 95%;
+  min-width: 95%;
+  height: 100%;
+}
+
+.img-container {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+
+  div {
+    text-align: start;
+    margin-left: 10px;
+
+    &:hover {
+      cursor: pointer;
+      color: purple;
+      border-radius: 30%;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .footer {
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
+  width: 100%;
 }
 
 .reply,
@@ -457,7 +508,16 @@ img {
   &:hover {
     cursor: pointer;
     opacity: 0.8;
+
     box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
   }
+}
+
+.card-content,
+.media-attachments {
+  max-width: 100%;
+  width: 100%;
+  white-space: wrap;
+  word-wrap: break-word;
 }
 </style>

@@ -15,7 +15,7 @@
 - [x] 登录, 注册Mastodon实例节点
 - [x] 暗色模式,浅色模式, 主题切换
 - [x] 兼容Firefox, Chrome, Safari, Edge, Opera 
-- [x] 搜索功能
+- [x] 搜索功能 ,用户详情页, 帖子详情页, 话题详情页
 - [ ] 打包到PC端
 ---
 
