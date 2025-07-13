@@ -5,8 +5,6 @@ import { NInfiniteScroll } from "naive-ui";
 const hashtagsData = ref([]);
 const loading = ref(false);
 const noMore = computed(() => hashtagsData.value.length > 100);
-
-import store from "~/composable/store";
 import {
   useInstanceUrlStore,
   useAccessTokenStore,

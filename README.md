@@ -7,6 +7,8 @@
 
 ![1](./imgs/img_3.png)
 ---
+![1](./imgs/img_4.png)
+---
 
 ## Features
 

@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { NInfiniteScroll } from "naive-ui";
-import store from "~/composable/store";
 import dayjs from "dayjs";
 import {
   useInstanceUrlStore,
   useAccessTokenStore,
   useQueryStore,
-  useSearchPostDetailStore
+  useSearchPostDetailStore,
 } from "~/store";
 import { useRouter } from "vue-router";
-import { getAccessTokenStorage, getInstanceUrlStorage } from "~/composable/constant";
+import {
+  getAccessTokenStorage,
+  getInstanceUrlStorage,
+} from "~/composable/constant";
+import { getStatusesData } from "~/utils/account";
 
 const router = useRouter();
 /**
@@ -50,7 +53,6 @@ const instanceUrl =
 const accessToken =
   useAccessTokenStore().getAccessToken || getAccessTokenStorage();
 
-
 const postsContentList = ref<Object[]>([]);
 const loading = ref(false);
 const noMore = ref(false);
@@ -65,7 +67,7 @@ watch(
       postsContentList.value = [];
       await handleLoad();
     }
-  }
+  },
 );
 onMounted(async () => {
   await handleLoad();
@@ -86,7 +88,7 @@ async function handleLoad() {
     queryStore.getQueryText,
     postsContentList.value.length,
     instanceUrl,
-    accessToken
+    accessToken,
   );
   if (!data) {
     console.warn("no more data");
@@ -119,8 +121,8 @@ async function enterPostDetailPage(item: Object) {
         await router.push({
           path: "/zh/postDetailInfo/",
           query: {
-            id: item.id
-          }
+            id: item.id,
+          },
         });
         return;
       }
@@ -130,8 +132,8 @@ async function enterPostDetailPage(item: Object) {
   await router.push({
     path: "/postDetailInfo/",
     query: {
-      id: item.id
-    }
+      id: item.id,
+    },
   });
 }
 </script>
@@ -174,11 +176,12 @@ async function enterPostDetailPage(item: Object) {
           </div>
           <div class="card-content" v-if="item.card">
             <h2 class="title">
-              <a style="font-size: 1rem;font-weight: bold; color : darkgoldenrod"
-                 target="_blank"
-                 :href="item.tags[0]?.url">{{
-                  item.tags[0]?.name
-                }}</a>
+              <a
+                style="font-size: 1rem; font-weight: bold; color: darkgoldenrod"
+                target="_blank"
+                :href="item.tags[0]?.url"
+                >{{ item.tags[0]?.name }}</a
+              >
               <span style="margin-left: 10px">{{ item.tags[1]?.name }}</span>
             </h2>
             <h3>{{ item.card?.title }}</h3>
@@ -188,9 +191,9 @@ async function enterPostDetailPage(item: Object) {
               :href="item.card?.url"
               class="card-url"
               style="color: darkorange"
-            >{{ item.card?.url }}</a
+              >{{ item.card?.url }}</a
             >
-            <img style="border-radius: 10px; alt="" :src="item.card?.image" />
+            <img style="border-radius: 10px" alt="" :src="item.card?.image" />
           </div>
           <section v-else class="media-attachments">
             <h3>{{ item.mediaAttachments[0]?.description }}</h3>
@@ -198,11 +201,17 @@ async function enterPostDetailPage(item: Object) {
             <img
               style="border-radius: 10px"
               alt="preview-url"
-              :src="item.mediaAttachments[0]?.previewUrl || item.mediaAttachments[0]?.url || item.mediaAttachments[0]?.remoteUrl"
+              :src="
+                item.mediaAttachments[0]?.previewUrl ||
+                item.mediaAttachments[0]?.url ||
+                item.mediaAttachments[0]?.remoteUrl
+              "
             />
           </section>
         </section>
-        <NDivider style="border: 1px solid rgba(255, 255, 255, 0.3); width: 100%;" />
+        <NDivider
+          style="border: 1px solid rgba(255, 255, 255, 0.3); width: 100%"
+        />
       </div>
       <h1 style="text-align: center" v-if="loading" class="text">加载中...</h1>
       <h1 style="text-align: center" v-if="noMore" class="text">
@@ -218,12 +227,12 @@ async function enterPostDetailPage(item: Object) {
   text-align: start;
 }
 
-.card-content, .media-attachments {
+.card-content,
+.media-attachments {
   width: 100%;
   max-width: 100%;
   white-space: wrap;
   word-wrap: break-word;
-
 }
 
 img {

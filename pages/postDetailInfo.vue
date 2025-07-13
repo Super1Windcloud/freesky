@@ -8,7 +8,6 @@ import { useRouter } from "vue-router";
 const postDetailStore = useSearchPostDetailStore();
 const postDetail = reactive({}) as any;
 import { useInstanceUrlStore, useAccessTokenStore } from "~/store";
-import store from "~/composable/store";
 import { NDropdown } from "naive-ui";
 
 const router = useRouter();
