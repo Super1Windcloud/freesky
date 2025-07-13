@@ -5,11 +5,8 @@
 
 ## 截图
 
-![1](./imgs/img.png)
+![1](./imgs/img_3.png)
 ---
-![2](./imgs/img_1.png)
----
-![2](./imgs/img_2.png)
 
 ## Features
 
