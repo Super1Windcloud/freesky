@@ -54,5 +54,7 @@
   "favourite": "Favourite",
   "comment": "Comment",
   "more": "More",
-  "theme" : "Theme"
+  "theme" : "Theme",
+  "reply" : "Reply",
+  "write-a-comment" : "Write a comment"
 }

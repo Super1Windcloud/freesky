@@ -10,8 +10,7 @@ import axios from "axios";
 
 const route = useRoute();
 const accountData = reactive({});
-const acct = ref("");
-const id = ref("");
+
 const instanceUrl =
   useInstanceUrlStore().getInstanceUrl || getInstanceUrlStorage();
 const accessToken =
@@ -19,12 +18,16 @@ const accessToken =
 
 onMounted(async () => {
   if (route?.query?.id) {
-    id.value = String(route.query.id || "");
+    const id = String(route.query.id || "");
+    if (!id) {
+      console.error("special account id is not exist");
+      return;
+    }
     try {
       const res = await axios.post("/api/account/special_account_detail/", {
-        id: id.value,
+        id: id,
         url: instanceUrl,
-        access_token: accessToken,
+        accessToken: accessToken,
       });
       const data = res.data;
       Object.assign(accountData, data);
@@ -35,12 +38,15 @@ onMounted(async () => {
   } else {
     const url = new URL(window.location.href);
     const id = url.searchParams.get("id");
-
+    if (!id) {
+      console.error("special account id is not exist from href");
+      return;
+    }
     try {
       const res = await axios.post("/api/account/special_account_detail/", {
         id: id,
         url: instanceUrl,
-        access_token: accessToken,
+        accessToken: accessToken,
       });
       const data = res.data;
       Object.assign(accountData, data);
@@ -53,10 +59,21 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
-    <p>账号名：{{ acct }}</p>
-    <p>ID：{{ id }}</p>
+  <div class="account-container">
+    <p>账号名：{{ accountData.displayName || accountData.username }}</p>
+    <p>ID：{{ accountData.id }}</p>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.account-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  width: 100%;
+  height: 90%;
+  margin-top: 50px;
+  background-color: green;
+}
+</style>

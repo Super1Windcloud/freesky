@@ -3,12 +3,15 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 
 import { useInstanceUrlStore, useAccessTokenStore } from "~/store";
-import { getAccessTokenStorage, getInstanceUrlStorage } from "~/composable/constant";
+import {
+  getAccessTokenStorage,
+  getInstanceUrlStorage,
+} from "~/composable/constant";
 
 const instanceUrl =
   useInstanceUrlStore().getInstanceUrl || getInstanceUrlStorage();
 const accessToken =
-  useAccessTokenStore().getAccessToken ||  getAccessTokenStorage();
+  useAccessTokenStore().getAccessToken || getAccessTokenStorage();
 
 const recommendList = ref([]);
 
@@ -70,19 +73,50 @@ async function unFollowPerson(id: string, index: number) {
     console.log("unfollow error", error);
   }
 }
+
+const router = useRouter();
+const languages =usePreferredLanguages() ;
+
+async function openAccountProfile(item: Object) {
+  const id = item.id;
+  const acct = item.acct;
+  if (languages.value) {
+    const langs = languages.value;
+    if (typeof langs === "object" && langs.length > 0) {
+      if (langs[0] === "zh-CN") {
+        await router.push({
+          path: `/zh/account/profile/${acct}/`,
+          query: {
+            id: id,
+          },
+        });
+        return;
+      }
+    }
+  }
+
+  await router.push({
+    path: `/account/profile/${acct}`,
+    query: { id: id },
+  });
+}
+
+
 </script>
 
 <template>
   <div class="container">
-    <h1>{{ $t("Recommendations") }}</h1>
+    <h2>{{ $t("Recommendations") }}</h2>
     <div class="user" v-for="(item, index) in recommendList" :key="index">
       <img
+        @click.stop="openAccountProfile(item)"
         style="margin-left: 30px; border-radius: 30%; width: 50px; height: 50px"
         class="avatar"
         :src="item.avatar"
         alt="user avatar"
       />
       <div
+        @click.stop="openAccountProfile(item)"
         class="display-name"
         style="
           text-align: center;
@@ -163,7 +197,7 @@ async function unFollowPerson(id: string, index: number) {
 }
 
 .follow {
-  width:  100px;
+  width: 100px;
   height: 40px;
   cursor: pointer;
   border-radius: 20px;
@@ -177,7 +211,7 @@ async function unFollowPerson(id: string, index: number) {
 }
 
 button {
-  margin-left:auto;
+  margin-left: auto;
   margin-right: 10px;
   background-color: slategray;
   color: inherit;

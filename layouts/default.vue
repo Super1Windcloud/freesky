@@ -46,14 +46,14 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   align-self: center;
-  height: 100vh;
+  height:   98vh;
   width: 80%;
   margin-left: 10%;
   margin-right: 10%;
   position: relative;
   font-family: Arial, sans-serif;
-  justify-content: center;
-  align-items: center;
+  justify-content: center ;
+  align-items: start;
   padding: 0;
 }
 

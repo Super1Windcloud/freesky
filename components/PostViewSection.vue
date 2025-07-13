@@ -16,9 +16,10 @@ import PostsContentList from "@/components/PostsContentList.vue";
   margin-top: 50px;
   flex-direction: column;
   justify-content: start;
-  align-items: center;
+  align-items: start ;
   width : 100%;
-
+  height: 90%;
+  background-color: green ;
 }
 
 </style>

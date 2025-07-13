@@ -1,3 +1,5 @@
+import path from 'path'
+
 export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: false },
@@ -87,4 +89,10 @@ export default defineNuxtConfig({
     storage: "localStorage", // or 'sessionStorage' or 'cookie'
     storageKey: "nuxt-color-mode",
   },
+  nitro: {
+    output: {
+      publicDir: path.join(__dirname, 'dist')
+    }
+  },
+
 });

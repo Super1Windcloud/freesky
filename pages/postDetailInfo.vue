@@ -109,12 +109,11 @@ const isBookmarked = ref(false);
 const openCommentView = ref(true);
 const showCommentView = useShowCommentStore();
 
-
 onMounted(() => {
   nextTick(() => {
     openCommentView.value = showCommentView.getShowComment;
-  })
-})
+  });
+});
 
 watch(
   () => showCommentView.getShowComment,
@@ -131,10 +130,25 @@ function openSourcePost() {
   const url = postDetail.card?.url;
   window.open(url, "_blank");
 }
+const languages = usePreferredLanguages() ;
 
 async function openAccountProfile(account) {
   const id = account.id;
   const acct = account.acct;
+  if (languages.value) {
+    const langs = languages.value;
+    if (typeof langs === "object" && langs.length > 0) {
+      if (langs[0] === "zh-CN") {
+        await router.push({
+          path: `/zh/account/profile/${acct}/`,
+          query: {
+            id: id,
+          },
+        });
+        return;
+      }
+    }
+  }
   await router.push({
     path: `/account/profile/${acct}/`,
     query: {
@@ -142,6 +156,7 @@ async function openAccountProfile(account) {
     },
   });
 }
+
 
 </script>
 
@@ -230,8 +245,12 @@ async function openAccountProfile(account) {
         <FooterOpertion :postDetail="postDetail" />
       </div>
       <div class="reply-area" v-if="openCommentView">
+        <PostComment
+          :postId="postDetail.id"
+          :accountId="postDetail.account?.id"
+          :accountAcct="postDetail.account?.acct"
+        />
         <CommentBox :post-id="postDetail.id" />
-        <PostComment />
       </div>
     </div>
   </section>

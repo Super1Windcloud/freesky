@@ -27,8 +27,38 @@ function logoutHandle() {
 }
 
 const account  = reactive({});
+const languages = usePreferredLanguages();
 
-function openAccountProfile() {}
+
+async function openAccountProfile() {
+   const id =account.id;
+   const acct = account.acct;
+   if (id) {
+
+     if (languages.value) {
+       const langs = languages.value;
+       if (typeof langs === "object" && langs.length > 0) {
+         if (langs[0] === "zh-CN") {
+           await router.push({
+             path: `/zh/account/profile/${acct}/`,
+             query: {
+               id: id,
+             },
+           });
+           return;
+         }
+       }
+     }
+     await router.push({
+       path: `/account/profile/${acct}/`,
+       query: {
+         id: id,
+       },
+     });
+   }else {
+     console.error("user info card Account not found!");
+   }
+}
 
 onMounted(async () => {
   const accessToken = getAccessTokenStorage();
@@ -44,6 +74,8 @@ onMounted(async () => {
       account.avatar = data.avatar;
       account.username = data.username;
       account.url = data.url;
+      account.id = data.id;
+      account.acct = data.acct;
     } catch (err) {
       console.log("fetch account info error", err);
     }
@@ -55,6 +87,7 @@ onMounted(async () => {
   <div class="card">
     <div
       class="user-info"
+      @click.stop="openAccountProfile"
       style="
         height: 50%;
         width: 95%;
@@ -66,7 +99,7 @@ onMounted(async () => {
         cursor: pointer;
       "
     >
-      <div class="avatar">
+      <div class="avatar" @click.stop="openAccountProfile">
         <img
           style="width: 50px; height: 50px; border-radius: 30%"
           :src="account.avatar"

@@ -142,3 +142,19 @@ export const useShowCommentStore = defineStore("useShowCommentStore", {
     },
   },
 });
+
+export const useRenderCommentBox = defineStore("useRenderCommentBox", {
+  state: () => ({
+    renderState: false,
+  }),
+  getters: {
+    getRenderState: (state) => {
+      return state.renderState;
+    },
+  },
+  actions: {
+    setRenderState(value: boolean) {
+      this.renderState = value;
+    },
+  },
+});

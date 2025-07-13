@@ -57,5 +57,7 @@
   "favourite": "收藏",
   "comment": "评论",
   "more": "更多",
-  "theme" : "主题"
+  "theme" : "主题",
+  "reply" : "回复",
+  "write-a-comment" : "写一点评论吧"
 }

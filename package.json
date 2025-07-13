@@ -1,12 +1,12 @@
 {
-  "name": "nuxt-app",
+  "name": "freesky",
   "private": true,
   "type": "module",
   "author": {
     "name": "superwindcloud",
     "email": "ss1178933440@gmail.com"
   },
-  "version": "0.0.1",
+  "version": "1.1.1",
   "description": "A mastodon-like web client built with Nuxt.js and Vue.js",
   "keywords": [
     "mastodon,vue3,nuxt, vue-router,pinia,masto"
@@ -21,7 +21,9 @@
     "backend": "pnpm --filter   fedify   run compile",
     "deploy_server": "pnpm i && pnpm --filter hollo run deploy && pnpm run deploy_client",
     "deploy_client": "pnpm dev",
-    "docker": "pnpm --filter   hollo   run docker"
+    "docker": "pnpm --filter   hollo   run docker",
+    "td": "tauri dev",
+    "tb": "tauri build"
   },
   "dependencies": {
     "@fedify/fedify": "^1.7.2",
@@ -48,6 +50,7 @@
   "devDependencies": {
     "@nuxtjs/i18n": "10.0.0-rc.2",
     "@tailwindcss/postcss": "^4.1.11",
+    "@tauri-apps/cli": "^2.6.2",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^24.0.10",
     "autoprefixer": "^10.4.21",

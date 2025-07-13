@@ -85,13 +85,14 @@ async function handleLoad() {
 }
 
 async function enterAccountDetailPage(item: any) {
+  const acct = item.acct;
+
   if (languages.value) {
     const langs = languages.value;
     if (typeof langs === "object" && langs.length > 0) {
       if (langs[0] === "zh-CN") {
-        accountDetailInfo.setAccountDetailInfo(item);
         await router.push({
-          path: "/zh/accountDetailInfo/",
+          path: `/zh/account/profile/${acct}/`,
           query: {
             id: item.id,
           },
@@ -100,9 +101,9 @@ async function enterAccountDetailPage(item: any) {
       }
     }
   }
-  accountDetailInfo.setAccountDetailInfo(item);
+  // accountDetailInfo.setAccountDetailInfo(item);
   await router.push({
-    path: "/accountDetailInfo/",
+    path: `/account/profile/${acct}/`,
     query: {
       id: item.id,
     },

@@ -39,7 +39,11 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 import axios from "axios";
-import { useInstanceUrlStore, useAccessTokenStore } from "~/store";
+import {
+  useInstanceUrlStore,
+  useAccessTokenStore,
+  useRenderCommentBox,
+} from "~/store";
 import {
   getAccessTokenStorage,
   getInstanceUrlStorage,
@@ -61,6 +65,28 @@ const instanceUrl =
 const accessToken =
   useAccessTokenStore().getAccessToken || getAccessTokenStorage();
 const comments = ref([]);
+const useRenderState = useRenderCommentBox();
+
+watch(
+  () => useRenderState.getRenderState,
+  async () => {
+    if (useRenderState.getRenderState) {
+      console.log("render comment box");
+      try {
+        const res = await axios.post("/api/posts/get_post_comments", {
+          id: props.postId,
+          url: instanceUrl,
+          accessToken: accessToken,
+        });
+        const data = res.data;
+        comments.value = data.comments;
+      } catch (err) {
+        console.error("fetch comments error", err);
+      }
+      useRenderState.setRenderState(false);
+    }
+  },
+);
 
 watch(
   () => props.postId,
@@ -118,10 +144,27 @@ function formatTime(date: string) {
 }
 
 const router = useRouter();
+const languages = usePreferredLanguages();
 
 async function openAccountProfile(comment) {
   const id = comment.account.id;
   const acct = comment.account.acct;
+
+  if (languages.value) {
+    const langs = languages.value;
+    if (typeof langs === "object" && langs.length > 0) {
+      if (langs[0] === "zh-CN") {
+        await router.push({
+          path: `/zh/account/profile/${acct}/`,
+          query: {
+            id: id,
+          },
+        });
+        return;
+      }
+    }
+  }
+
   await router.push({
     path: `/account/profile/${acct}/`,
     query: {
@@ -142,8 +185,8 @@ async function openAccountProfile(comment) {
 
 .comment-box {
   border-radius: 10px;
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }

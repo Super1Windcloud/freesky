@@ -23,3 +23,7 @@ logs
 # Local env files
 .env.*
 !.env.example
+
+
+src-tauri/target
+
