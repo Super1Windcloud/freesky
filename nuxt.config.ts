@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "nuxt-toast",
     "@vueuse/nuxt",
-    "@nuxtjs/color-mode"
+    "@nuxtjs/color-mode",
   ],
   spaLoadingTemplate: false,
   app: {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, reactive } from "vue";
+import { ref, onMounted, reactive, watch,nextTick  } from "vue";
 import { useSearchPostDetailStore } from "~/store";
 import dayjs from "dayjs";
 import axios from "axios";
@@ -9,13 +9,23 @@ const postDetailStore = useSearchPostDetailStore();
 const postDetail = reactive({}) as any;
 import { useInstanceUrlStore, useAccessTokenStore } from "~/store";
 import { NDropdown } from "naive-ui";
+import PostComment from "~/components/statuses/PostComment.vue";
 
+const isDark = usePreferredDark();
+
+watch(
+  () => isDark.value,
+  (newValue) => {
+    alert(newValue);
+  },
+);
 const router = useRouter();
 import Lenis from "lenis";
 import {
   getAccessTokenStorage,
   getInstanceUrlStorage,
 } from "~/composable/constant";
+import CommentBox from "~/components/statuses/CommentBox.vue";
 
 const moreOptions = ref([
   {
@@ -35,15 +45,37 @@ const moreOptions = ref([
     key: "openFromSource",
   },
 ]);
+
+
+const contentRef = ref<HTMLElement | null>(null)
+
 onMounted(() => {
-  const target = document.querySelector(".content") as HTMLElement;
-  const lenis = new Lenis({
-    wrapper: target,
-    anchors: true,
-    autoRaf: true,
-    allowNestedScroll: true,
-  });
-});
+  nextTick(() => {
+    const el = contentRef.value
+    if (!el) {
+      console.error('contentRef is null')
+      return
+    }
+
+    const lenis = new Lenis({
+      wrapper: el,
+      autoRaf: false,
+      allowNestedScroll: true,
+    })
+
+    function raf(time: number) {
+      lenis.raf(time)
+      requestAnimationFrame(raf)
+    }
+    requestAnimationFrame(raf)
+
+    // 监听容器尺寸变化，实时刷新 lenis
+    const ro = new ResizeObserver(() => {
+      lenis.resize()
+    })
+    ro.observe(el)
+  })
+})
 
 const instanceUrl =
   useInstanceUrlStore().getInstanceUrl || getInstanceUrlStorage();
@@ -89,20 +121,27 @@ onMounted(async () => {
     isShared.value = !!postDetail.reblogged;
     isBookmarked.value = !!postDetail.bookmarked;
     favoriteCount.value = postDetail.favouritesCount;
+    shareCount.value = postDetail.reblogsCount;
+    commentCount.value = postDetail.repliesCount;
   }
 });
 
+const commentCount = ref(0);
 const favoriteCount = ref(0);
+const shareCount = ref(0);
 const isFavourite = ref(false);
 const isShared = ref(false);
 const isCommented = ref(false);
 const isBookmarked = ref(false);
+const openCommentView = ref(false);
 
 async function backToLastPage() {
   await router.go(-1);
 }
 
-function showComments() {}
+function showComments() {
+  openCommentView.value = !openCommentView.value;
+}
 
 function addToUserBookmarks() {
   isBookmarked.value = !isBookmarked.value;
@@ -161,7 +200,35 @@ function addToUserFavourites() {
   })();
 }
 
-function sharePost() {}
+function sharePost() {
+  isShared.value = !isShared.value;
+  (async () => {
+    if (isShared.value) {
+      shareCount.value += 1;
+      const res = await axios.post("/api/add_to_share", {
+        url: instanceUrl,
+        accessToken: accessToken,
+        id: postDetail.id,
+      });
+      const data = res.data;
+      if (!data.success) {
+        console.error("failed to add to bookmark");
+        return;
+      }
+    } else {
+      shareCount.value -= 1;
+      const res = await axios.post("/api/remove_from_share", {
+        url: instanceUrl,
+        accessToken: accessToken,
+        id: postDetail.id,
+      });
+      const data = res.data;
+      if (!data.success) {
+        console.error("failed to add to bookmark");
+      }
+    }
+  })();
+}
 
 function doMoreActions(actionKey: string) {
   switch (String(actionKey)) {
@@ -193,6 +260,24 @@ function openSourcePost() {
   const url = postDetail.card?.url;
   window.open(url, "_blank");
 }
+
+const dropdownTheme = computed(() => {
+  return isDark.value
+    ? {
+        // 暗色主题
+        color: "#2b2b2b",
+        optionColorHover: "#3c3c3c",
+        textColor: "#f5f5f5",
+        optionTextColorHover: "#ffffff",
+      }
+    : {
+        // 浅色主题
+        color: "#ffffff",
+        optionColorHover: "#eeeeee",
+        textColor: "#333333",
+        optionTextColorHover: "#000000",
+      };
+});
 </script>
 
 <template>
@@ -204,7 +289,7 @@ function openSourcePost() {
       alt="back"
       src="../assets/back.png"
     />
-    <div class="content">
+    <div  :ref="contentRef" class="content no-scrollbar">
       <div class="header">
         <img
           style="
@@ -300,7 +385,7 @@ function openSourcePost() {
             />
             <path fill="currentColor" d="M22.5 16h-2.2l1.7-4h-5v6h2v5z" />
           </svg>
-          <div>{{ postDetail.repliesCount || $t("comment") }}</div>
+          <div>{{ commentCount || $t("comment") }}</div>
         </span>
 
         <span
@@ -313,6 +398,7 @@ function openSourcePost() {
           title="share"
           class="share"
           @click.stop="sharePost"
+          :style="{ color: isShared ? 'lightgreen' : '' }"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -325,7 +411,7 @@ function openSourcePost() {
               d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81c1.66 0 3-1.34 3-3s-1.34-3-3-3s-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65c0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92"
             />
           </svg>
-          <div>{{ postDetail.reblogsCount || $t("share") }}</div>
+          <div>{{ shareCount || $t("share") }}</div>
         </span>
 
         <span
@@ -384,6 +470,10 @@ function openSourcePost() {
           :options="moreOptions"
           @select="doMoreActions"
           style="font-weight: bold"
+          :style="{
+            borderRadius: '10%',
+          }"
+          :theme-overrides="dropdownTheme"
         >
           <span
             style="
@@ -392,7 +482,6 @@ function openSourcePost() {
               align-items: center;
               justify-content: center;
             "
-            @click.stop="openMoreOptionMenu"
             title="more"
             class="more"
           >
@@ -410,6 +499,11 @@ function openSourcePost() {
             <div>{{ $t("more") }}</div>
           </span>
         </n-dropdown>
+      </div>
+      <div v-if="openCommentView">
+        <CommentBox />
+        <PostComment />
+
       </div>
     </div>
   </section>
@@ -433,8 +527,8 @@ function openSourcePost() {
   flex-direction: column;
   align-items: start;
   justify-content: start;
-  width: 100%;
-  height: 100%;
+  width: 95%;
+  height: 95%;
   overflow: auto;
 }
 
@@ -452,6 +546,10 @@ img {
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
   border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 10px;
   margin-top: 50px;
@@ -519,5 +617,17 @@ img {
   width: 100%;
   white-space: wrap;
   word-wrap: break-word;
+}
+
+.no-scrollbar {
+  overflow:  hidden;
+}
+
+.no-scrollbar {
+  overflow: auto;
+  scrollbar-width: none; /**隐藏滚动条 **/
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 </style>

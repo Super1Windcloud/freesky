@@ -3,7 +3,6 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 
 import { useInstanceUrlStore, useAccessTokenStore } from "~/store";
-import store from "~/composable/store";
 import { getAccessTokenStorage, getInstanceUrlStorage } from "~/composable/constant";
 
 const instanceUrl =
@@ -114,7 +113,7 @@ async function unFollowPerson(id: string, index: number) {
             text-overflow: ellipsis;
             white-space: nowrap;
             text-wrap: nowrap;
-            max-width: 200px;
+            max-width: 150px;
             opacity: 0.8;
           "
         >
@@ -164,8 +163,6 @@ async function unFollowPerson(id: string, index: number) {
 }
 
 .follow {
-  margin-left: auto;
-  margin-right: 30px;
   width:  100px;
   height: 40px;
   cursor: pointer;
@@ -180,6 +177,8 @@ async function unFollowPerson(id: string, index: number) {
 }
 
 button {
+  margin-left:auto;
+  margin-right: 10px;
   background-color: slategray;
   color: inherit;
 }
