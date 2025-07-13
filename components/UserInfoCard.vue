@@ -36,7 +36,7 @@ onMounted(async () => {
 
   if (accessToken && instanceUrl) {
     try {
-      const res = await axios.post("/api/account_info", {
+      const res = await axios.post("/api/account/account_info", {
         url: instanceUrl,
         accessToken: accessToken,
       });

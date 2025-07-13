@@ -63,6 +63,12 @@ export default defineNuxtConfig({
     "/accountDetailInfo/**": { ssr: false },
     "/zh/topicDetailPage/**": { ssr: false },
     "/topicDetailPage/**": { ssr: false },
+    "/zh/account/**": { ssr: false },
+    "/account/**": { ssr: false },
+    "/zh/topic/**": { ssr: false },
+    "/topic/**": { ssr: false },
+    "/zh/posts/**": { ssr: false },
+    "/posts/**": { ssr: false },
   },
   css: ["assets/css/main.css"],
   postcss: {
@@ -71,15 +77,14 @@ export default defineNuxtConfig({
     },
   },
   colorMode: {
-    preference: 'system', // default value of $colorMode.preference
-    fallback: 'light', // fallback value if not system preference found
-    hid: 'nuxt-color-mode-script',
-    globalName: '__NUXT_COLOR_MODE__',
-    componentName: 'ColorScheme',
-    classPrefix: '',
-    classSuffix: '',
-    storage: 'localStorage', // or 'sessionStorage' or 'cookie'
-    storageKey: 'nuxt-color-mode'
-  }
-
+    preference: "system", // default value of $colorMode.preference
+    fallback: "light", // fallback value if not system preference found
+    hid: "nuxt-color-mode-script",
+    globalName: "__NUXT_COLOR_MODE__",
+    componentName: "ColorScheme",
+    classPrefix: "",
+    classSuffix: "",
+    storage: "localStorage", // or 'sessionStorage' or 'cookie'
+    storageKey: "nuxt-color-mode",
+  },
 });

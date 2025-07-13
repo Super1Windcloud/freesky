@@ -1,122 +1,166 @@
 <template>
   <div class="comment-box">
-    <!-- 评论列表 -->
     <div v-for="comment in comments" :key="comment.id" class="comment-item">
-      <div class="avatar">
-        <img :src="comment.user.avatar" alt="avatar" />
+      <div class="avatar" @click.stop="openAccountProfile(comment)">
+        <img
+          style="
+            width: 50px;
+            height: 50px;
+            margin-left: 10%;
+            border-radius: 30%;
+          "
+          :src="comment.account.avatar"
+          alt="avatar"
+        />
       </div>
       <div class="comment-content">
-        <div class="author">{{ comment.user.name }}</div>
-        <div class="time">{{ formatTime(comment.time) }}</div>
-        <div class="text">{{ comment.text }}</div>
+        <div
+          class="author"
+          style="font-weight: bold; margin-top: 30%; color: inherit"
+        >
+          {{ comment.account.displayNmae || comment.account.username }}
+        </div>
+        <div class="acct" style="opacity: 0.7">@{{ comment.account.acct }}</div>
+        <div class="comment">
+          <div v-html="comment.content"></div>
+        </div>
+        <div class="comment-footer"></div>
       </div>
-    </div>
-
-    <!-- 发表评论 -->
-    <div class="comment-input">
-      <textarea v-model="newComment" placeholder="请输入评论..." />
-      <button @click="submitComment" :disabled="!newComment.trim()">发送</button>
+      <div
+        class="time"
+        style="margin-left: auto; margin-right: 10px; opacity: 0.8"
+      >
+        {{ formatTime(comment.createdAt) }}
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted, watch } from "vue";
+import axios from "axios";
+import { useInstanceUrlStore, useAccessTokenStore } from "~/store";
+import {
+  getAccessTokenStorage,
+  getInstanceUrlStorage,
+} from "~/composable/constant";
+import dayjs from "dayjs";
 
-const comments = ref([
-  {
-    id: 1,
-    user: {
-      name: "用户A",
-      avatar: "https://via.placeholder.com/40",
-    },
-    time: new Date(),
-    text: "这是第一条评论",
+const props = defineProps({
+  postDetail: {
+    type: Object,
+    required: false,
   },
-]);
+  postId: {
+    type: String,
+    required: true,
+  },
+});
+const instanceUrl =
+  useInstanceUrlStore().getInstanceUrl || getInstanceUrlStorage();
+const accessToken =
+  useAccessTokenStore().getAccessToken || getAccessTokenStorage();
+const comments = ref([]);
 
-const newComment = ref("");
+watch(
+  () => props.postId,
+  async (newVal) => {
+    if (newVal) {
+      try {
+        const res = await axios.post("/api/posts/get_post_comments", {
+          id: props.postId,
+          url: instanceUrl,
+          accessToken: accessToken,
+        });
+        const data = res.data;
+        comments.value = data.comments;
+      } catch (err) {
+        console.error("fetch comments error", err);
+      }
+    }
+  },
+);
 
-function submitComment() {
-  comments.value.push({
-    id: Date.now(),
-    user: {
-      name: "当前用户",
-      avatar: "https://via.placeholder.com/40",
-    },
-    time: new Date(),
-    text: newComment.value,
-  });
-  newComment.value = "";
+onMounted(async () => {
+  const url = new URL(window.location.href);
+  let postid = url.searchParams.get("id");
+  postid = props.postId || postid;
+  if (!postid) return;
+  try {
+    console.warn("id type", typeof postid);
+    const res = await axios.post("/api/posts/get_post_comments", {
+      id: postid,
+      url: instanceUrl,
+      accessToken: accessToken,
+    });
+    const data = res.data;
+    comments.value = data.comments;
+  } catch (err) {
+    console.error("fetch comments error", err);
+  }
+});
+
+function formatTime(date: string) {
+  const newDate = dayjs(date).format("YYYY-MM-DD HH:mm:ss");
+  const now = dayjs();
+  const diff = now.diff(dayjs(newDate), "second");
+  if (diff < 60) {
+    return "刚刚";
+  } else if (diff < 3600) {
+    return Math.floor(diff / 60) + "分钟前";
+  } else if (diff < 86400) {
+    return Math.floor(diff / 3600) + "小时前";
+  } else if (diff < 604800) {
+    return Math.floor(diff / 86400) + "天前";
+  } else {
+    return newDate;
+  }
 }
 
-function formatTime(date: Date) {
-  return date.toLocaleString(); // 可换成 dayjs
+const router = useRouter();
+
+async function openAccountProfile(comment) {
+  const id = comment.account.id;
+  const acct = comment.account.acct;
+  await router.push({
+    path: `/account/profile/${acct}/`,
+    query: {
+      id: id,
+    },
+  });
 }
 </script>
 
 <style scoped>
+.comment-content {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  margin-left: 20px;
+}
+
 .comment-box {
-  padding: 20px;
   border-radius: 10px;
-  background-color: var(--comment-bg, #f5f5f5);
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .comment-item {
   display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
 }
 
-.avatar img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-
-.comment-content {
-  flex: 1;
-}
-
-.author {
-  font-weight: bold;
-}
-
-.time {
-  font-size: 12px;
-  color: gray;
-}
-
-.text {
-  margin-top: 5px;
-}
-
-.comment-input {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-textarea {
+.comment-footer {
   width: 100%;
-  min-height: 80px;
-  padding: 8px;
-  border-radius: 5px;
-  resize: vertical;
-}
-
-button {
-  align-self: flex-end;
-  padding: 6px 16px;
-  background-color: #42b983;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-}
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>

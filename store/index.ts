@@ -101,15 +101,14 @@ export const useSearchPostDetailStore = defineStore(
       },
     },
     actions: {
-      setSearchPostDetail(postDetail:  Object) {
+      setSearchPostDetail(postDetail: Object) {
         this.searchPostDetail = postDetail;
       },
     },
   },
 );
 
-
-export const  useAccountDetailInfoStore = defineStore(
+export const useAccountDetailInfoStore = defineStore(
   "useAccountDetailInfoStore",
   {
     state: () => ({
@@ -121,9 +120,25 @@ export const  useAccountDetailInfoStore = defineStore(
       },
     },
     actions: {
-      setAccountDetailInfo(accountDetailInfo:  Object) {
+      setAccountDetailInfo(accountDetailInfo: Object) {
         this.accountDetailInfo = accountDetailInfo;
       },
     },
   },
 );
+
+export const useShowCommentStore = defineStore("useShowCommentStore", {
+  state: () => ({
+    showComment: true,
+  }),
+  getters: {
+    getShowComment: (state) => {
+      return state.showComment;
+    },
+  },
+  actions: {
+    setShowComment(showComment: boolean) {
+      this.showComment = showComment;
+    },
+  },
+});
