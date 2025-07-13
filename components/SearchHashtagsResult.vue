@@ -12,12 +12,16 @@ import {
   useAccessTokenStore,
   useQueryStore,
 } from "~/store";
+import {
+  getAccessTokenStorage,
+  getInstanceUrlStorage,
+} from "~/composable/constant";
 
 const queryStore = useQueryStore();
 const instanceUrl =
-  useInstanceUrlStore().getInstanceUrl || store.session.get("instanceURL");
+  useInstanceUrlStore().getInstanceUrl || getInstanceUrlStorage();
 const accessToken =
-  useAccessTokenStore().getAccessToken || store.session.get("accessToken");
+  useAccessTokenStore().getAccessToken || getAccessTokenStorage();
 
 onMounted(async () => {
   await handleLoad();
@@ -47,13 +51,13 @@ async function handleLoad() {
   const data = await getHashTagsData(
     queryStore.getQueryText,
     hashtagsData.value.length,
-     instanceUrl,
-     accessToken,
+    instanceUrl,
+    accessToken,
   );
   if (!data) {
     console.warn("no more data");
     loading.value = false;
-    return ;
+    return;
   }
   hashtagsData.value.push(...data);
   loading.value = false;

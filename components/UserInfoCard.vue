@@ -6,6 +6,10 @@ import { useAccessTokenStore } from "~/store";
 import { useRouter } from "vue-router";
 import { useIsLoggedInStore } from "~/store";
 import axios from "axios";
+import {
+  getAccessTokenStorage,
+  getInstanceUrlStorage,
+} from "~/composable/constant";
 
 const instanceUrlObj = useInstanceUrlStore();
 const accessTokenObj = useAccessTokenStore();
@@ -22,15 +26,13 @@ function logoutHandle() {
   router.push("/");
 }
 
-const account = reactive({});
+const account  = reactive({});
 
 function openAccountProfile() {}
 
 onMounted(async () => {
-  const accessToken =
-    store.session.get("accessToken") || instanceUrlObj.getAccessToken;
-  const instanceUrl =
-    store.session.get("instanceURL") || accessTokenObj.getInstanceUrl;
+  const accessToken = getAccessTokenStorage();
+  const instanceUrl = getInstanceUrlStorage();
 
   if (accessToken && instanceUrl) {
     try {
@@ -55,7 +57,7 @@ onMounted(async () => {
       class="user-info"
       style="
         height: 50%;
-        width:  95%;
+        width: 95%;
         border-radius: 10%;
         display: flex;
         flex-direction: row;
@@ -104,7 +106,7 @@ onMounted(async () => {
     >
       <img
         src="../assets/img.png"
-        style="width: 25px; height: 25px; margin-left : 6%;margin-right: 10px;"
+        style="width: 25px; height: 25px; margin-left: 6%; margin-right: 10px"
         alt="addAccount"
       />
       <span>{{ $t("addAccount") }}</span>
@@ -123,7 +125,7 @@ onMounted(async () => {
       "
     >
       <img
-        style="width: 25px; height: 25px; margin-left: 6%;margin-right: 10px"
+        style="width: 25px; height: 25px; margin-left: 6%; margin-right: 10px"
         src="../assets/logout.png"
         alt="logout"
       />
@@ -133,11 +135,12 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.user-info:hover{
+.user-info:hover {
   background-color: rgba(200, 200, 200, 0.2);
   transform: scale(1.05);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
 .card {
   display: flex;
   flex-direction: column;
@@ -152,8 +155,7 @@ onMounted(async () => {
 }
 
 .add-account:hover,
-.logout:hover
-{
+.logout:hover {
   background-color: rgba(200, 200, 200, 0.2);
   transform: scale(1.05);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);

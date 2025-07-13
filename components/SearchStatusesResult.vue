@@ -7,9 +7,10 @@ import {
   useInstanceUrlStore,
   useAccessTokenStore,
   useQueryStore,
-  useSearchPostDetailStore,
+  useSearchPostDetailStore
 } from "~/store";
 import { useRouter } from "vue-router";
+import { getAccessTokenStorage, getInstanceUrlStorage } from "~/composable/constant";
 
 const router = useRouter();
 /**
@@ -44,13 +45,11 @@ const router = useRouter();
  * 28: "poll"
  * */
 const instanceUrl =
-  useInstanceUrlStore().getInstanceUrl ||
-  store.session.get("instanceURL") ||
-  "";
+  useInstanceUrlStore().getInstanceUrl || getInstanceUrlStorage();
+
 const accessToken =
-  useAccessTokenStore().getAccessToken ||
-  store.session.get("accessToken") ||
-  "";
+  useAccessTokenStore().getAccessToken || getAccessTokenStorage();
+
 
 const postsContentList = ref<Object[]>([]);
 const loading = ref(false);
@@ -66,7 +65,7 @@ watch(
       postsContentList.value = [];
       await handleLoad();
     }
-  },
+  }
 );
 onMounted(async () => {
   await handleLoad();
@@ -87,7 +86,7 @@ async function handleLoad() {
     queryStore.getQueryText,
     postsContentList.value.length,
     instanceUrl,
-    accessToken,
+    accessToken
   );
   if (!data) {
     console.warn("no more data");
@@ -120,8 +119,8 @@ async function enterPostDetailPage(item: Object) {
         await router.push({
           path: "/zh/postDetailInfo/",
           query: {
-            id: item.id,
-          },
+            id: item.id
+          }
         });
         return;
       }
@@ -131,9 +130,9 @@ async function enterPostDetailPage(item: Object) {
   await router.push({
     path: "/postDetailInfo/",
     query: {
-      id: item.id,
+      id: item.id
     }
-  })
+  });
 }
 </script>
 
@@ -173,11 +172,13 @@ async function enterPostDetailPage(item: Object) {
               {{ dayjs(item.createdAt).format("YYYY-MM-DD HH:mm:ss") }}
             </div>
           </div>
-          <div class="content" v-if="item.card">
+          <div class="card-content" v-if="item.card">
             <h2 class="title">
-              <a target="_blank" :href="item.tags[0]?.url">{{
-                item.tags[0]?.name
-              }}</a>
+              <a style="font-size: 1rem;font-weight: bold; color : darkgoldenrod"
+                 target="_blank"
+                 :href="item.tags[0]?.url">{{
+                  item.tags[0]?.name
+                }}</a>
               <span style="margin-left: 10px">{{ item.tags[1]?.name }}</span>
             </h2>
             <h3>{{ item.card?.title }}</h3>
@@ -187,9 +188,9 @@ async function enterPostDetailPage(item: Object) {
               :href="item.card?.url"
               class="card-url"
               style="color: darkorange"
-              >{{ item.card?.url }}</a
+            >{{ item.card?.url }}</a
             >
-            <img  style="border-radius: 10px"  alt="" :src="item.card?.image" />
+            <img style="border-radius: 10px; alt="" :src="item.card?.image" />
           </div>
           <section v-else class="media-attachments">
             <h3>{{ item.mediaAttachments[0]?.description }}</h3>
@@ -201,7 +202,7 @@ async function enterPostDetailPage(item: Object) {
             />
           </section>
         </section>
-        <NDivider style="border: 1px solid white; width: calc(100% + 20px)" />
+        <NDivider style="border: 1px solid rgba(255, 255, 255, 0.3); width: 100%;" />
       </div>
       <h1 style="text-align: center" v-if="loading" class="text">加载中...</h1>
       <h1 style="text-align: center" v-if="noMore" class="text">
@@ -212,9 +213,23 @@ async function enterPostDetailPage(item: Object) {
 </template>
 
 <style scoped>
-.content {
+.card-content {
   margin-top: 10px;
   text-align: start;
+}
+
+.card-content, .media-attachments {
+  width: 100%;
+  max-width: 100%;
+  white-space: wrap;
+  word-wrap: break-word;
+
+}
+
+img {
+  border-radius: 10px;
+  max-width: 100%;
+  height: auto;
 }
 
 .account-name {
@@ -239,11 +254,10 @@ async function enterPostDetailPage(item: Object) {
 }
 
 .container {
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 20px;
-  height: 97%;
-  padding: 7px 10px;
-  width: 97%;
+  height: 100%;
+  width: 100%;
 }
 
 .post-card {
@@ -253,6 +267,7 @@ async function enterPostDetailPage(item: Object) {
   justify-content: center;
   width: 100%;
   height: 100%;
+  max-width: 100%;
 }
 
 .header {

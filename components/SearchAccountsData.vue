@@ -1,21 +1,25 @@
 <script setup lang="ts">
-import { defineProps, ref, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { followPerson, getAccountsData, unFollowPerson } from "~/utils/account";
 import { NInfiniteScroll } from "naive-ui";
 import store from "~/composable/store";
 import {
   useInstanceUrlStore,
   useAccessTokenStore,
-  useQueryStore,
+  useQueryStore, useAccountDetailInfoStore
 } from "~/store";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const router = useRouter();
 const instanceUrl: string =
-  useInstanceUrlStore().getInstanceUrl || store.session.get("instanceURL");
+  useInstanceUrlStore().getInstanceUrl || store.session.get("instanceURL") || '';
 const accessToken: string =
-  useAccessTokenStore().getAccessToken || store.session.get("accessToken");
+  useAccessTokenStore().getAccessToken || store.session.get("accessToken") || '';
+
+
+const languages = usePreferredLanguages();
+const  accountDetailInfo = useAccountDetailInfoStore();
 
 
 const userFollowStatus = ref<boolean[]>([]);
@@ -76,12 +80,38 @@ async function handleLoad() {
   loading.value = false;
   noMore.value = false;
 }
+
+async function enterAccountDetailPage(item : any) {
+
+  if (languages.value) {
+    const langs = languages.value;
+    if (typeof langs === "object" && langs.length > 0) {
+      if (langs[0] === "zh-CN") {
+        accountDetailInfo.setAccountDetailInfo(item);
+        await router.push({
+          path: "/zh/accountDetailInfo/",
+          query: {
+            id: item.id,
+          },
+        });
+        return;
+      }
+    }
+  }
+  accountDetailInfo.setAccountDetailInfo( item);
+  await router.push({
+    path: "/accountDetailInfo/",
+    query: {
+      id: item.id,
+    }
+  })
+}
 </script>
 
 <template>
   <div class="container">
     <n-infinite-scroll style="height: 100%" :distance="10" @load="handleLoad">
-      <div v-for="(item, index) in accountsData" :key="index" class="user">
+      <div @click.stop="enterAccountDetailPage(item)" v-for="(item, index) in accountsData" :key="index" class="user">
         <img
           style="
             margin-left: 30px;

@@ -4,11 +4,12 @@ import axios from "axios";
 
 import { useInstanceUrlStore, useAccessTokenStore } from "~/store";
 import store from "~/composable/store";
+import { getAccessTokenStorage, getInstanceUrlStorage } from "~/composable/constant";
 
 const instanceUrl =
-  useInstanceUrlStore().getInstanceUrl || store.session.get("instanceURL");
+  useInstanceUrlStore().getInstanceUrl || getInstanceUrlStorage();
 const accessToken =
-  useAccessTokenStore().getAccessToken || store.session.get("accessToken");
+  useAccessTokenStore().getAccessToken ||  getAccessTokenStorage();
 
 const recommendList = ref([]);
 

@@ -13,11 +13,10 @@ import { useQueryStore } from "~/store";
 import SearchHashtagsResult from "~/components/SearchHashtagsResult.vue";
 import SearchStatusesResult from "~/components/SearchStatusesResult.vue";
 
-const initTable = ref("accounts");
 const instanceUrl =
-  useInstanceUrlStore().getInstanceUrl || store.session.get("instanceURL");
+  useInstanceUrlStore().getInstanceUrl || store.session.get("instanceURL") || store.cookie.get("instanceURL");
 const accessToken =
-  useAccessTokenStore().getAccessToken || store.session.get("accessToken");
+  useAccessTokenStore().getAccessToken || store.session.get("accessToken") || store.cookie.get("accessToken");
 
 const { locales, setLocale } = useI18n();
 const route = useRoute();
@@ -104,7 +103,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="container" style="width: 100%; height: 90%; margin-top: 50px">
+  <main
+    class="container"
+    style="
+      width: 100%;
+      height: 90%;
+      margin-top: 50px;
+      min-width: 100%;
+      min-height: 90%;
+    "
+  >
     <n-h2 style="text-align: center; width: 100%; color: inherit">
       '{{ search }}' {{ $t("searchResult") }}
     </n-h2>

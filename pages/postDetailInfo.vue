@@ -13,6 +13,7 @@ import { NDropdown } from "naive-ui";
 
 const router = useRouter();
 import Lenis from "lenis";
+import { getAccessTokenStorage, getInstanceUrlStorage } from "~/composable/constant";
 
 const moreOptions = ref([
   {
@@ -43,9 +44,9 @@ onMounted(() => {
 });
 
 const instanceUrl =
-  useInstanceUrlStore().getInstanceUrl || store.session.get("instanceURL");
+  useInstanceUrlStore().getInstanceUrl || getInstanceUrlStorage();
 const accessToken =
-  useAccessTokenStore().getAccessToken || store.session.get("accessToken");
+  useAccessTokenStore().getAccessToken ||  getAccessTokenStorage();
 
 onMounted(async () => {
   if (Object.keys(postDetailStore.getSearchPostDetail).length) {

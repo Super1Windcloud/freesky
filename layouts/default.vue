@@ -72,7 +72,7 @@ onMounted(() => {
 }
 
 .right {
-  margin-left:1%;
+  margin-left:3%;
   height: 100%;
   width: 25%;
   background-color: transparent ;

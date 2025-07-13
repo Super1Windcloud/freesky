@@ -32,7 +32,11 @@ onMounted(async () => {
 });
 
 onMounted(async () => {
-  if (store.session.get("accessToken")) {
+  if (
+    store.session.get("accessToken") ||
+    store.cookie.get("accessToken") ||
+    store.local.get("accessToken")
+  ) {
     console.log(store.session.get("accessToken"));
     isLoggedIn.setIsLoggedIn(true);
     initSettingStates();

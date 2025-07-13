@@ -72,6 +72,8 @@ export async function detectedIsLoggedIn(callback: () => void, storeState : (url
       storeState(instanceURL, accessToken)
       store.session.set("accessToken", accessToken);
       store.session.set("instanceURL", instanceURL );
+      store.cookie.set("accessToken", accessToken);
+      store.cookie.set("instanceURL", instanceURL);
 
       const client =await  initClient( instanceURL , accessToken);
       await Promise.allSettled([

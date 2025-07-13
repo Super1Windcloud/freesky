@@ -107,3 +107,23 @@ export const useSearchPostDetailStore = defineStore(
     },
   },
 );
+
+
+export const  useAccountDetailInfoStore = defineStore(
+  "useAccountDetailInfoStore",
+  {
+    state: () => ({
+      accountDetailInfo: {},
+    }),
+    getters: {
+      getAccountDetailInfo: (state) => {
+        return state.accountDetailInfo;
+      },
+    },
+    actions: {
+      setAccountDetailInfo(accountDetailInfo:  Object) {
+        this.accountDetailInfo = accountDetailInfo;
+      },
+    },
+  },
+);
