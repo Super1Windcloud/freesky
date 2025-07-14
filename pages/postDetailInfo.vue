@@ -231,7 +231,7 @@ async function openAccountProfile(account) {
       </div>
       <div v-else class="media-attachments">
         <h3>{{ postDetail.mediaAttachments?.[0]?.description }}</h3>
-        <div v-html="postDetail.content"></div>
+        <div  class="html-content" v-html="postDetail.content"></div>
         <img
           style="border-radius: 10px"
           alt="preview-url"

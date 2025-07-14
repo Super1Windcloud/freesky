@@ -204,7 +204,7 @@ async function openAccountProfile(item: Object) {
   text-align: center;
   text-decoration: none;
   font-weight: bold;
-
+  border: none;
   &:hover {
     background-color: orchid;
   }

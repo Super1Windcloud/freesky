@@ -11,6 +11,15 @@ body {
 
 
 :root {
-    --dark-bg-color : #2b2b2b;
-    --light-bg-color : #f5f5f5;
+    --dark-bg-color: #2b2b2b;
+    --light-bg-color: #f5f5f5;
+}
+
+.html-content {
+    a {
+        text-decoration: underline;
+        color: lightseagreen;
+        background-color: transparent;
+    }
+
 }

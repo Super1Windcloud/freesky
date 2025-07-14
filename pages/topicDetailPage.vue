@@ -8,6 +8,7 @@ import {
 import axios from "axios";
 import AvatarCommon from "~/components/accounts/avatarCommon.vue";
 import Lenis from "lenis";
+import GridImage from "~/components/hashtags/GridImage.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -19,7 +20,7 @@ const accessToken =
 const tagName = ref("");
 const tagId = ref("");
 const followState = ref(false);
-
+const loadError = ref(false);
 onMounted(async () => {
   if (route.query) {
     const name = route.query.name;
@@ -66,6 +67,7 @@ onMounted(async () => {
           },
         );
         const data = res.data;
+
         hashtagsData.value = data;
         const res2 = await axios.post(
           "/api/hashtags/get_hashtags_follow_state",
@@ -83,6 +85,11 @@ onMounted(async () => {
         console.log("get hashtags data error", error);
       }
     }
+  }
+  if (hashtagsData.value.length == 0) {
+    loadError.value = true;
+  } else {
+    loadError.value = false;
   }
 });
 
@@ -142,7 +149,7 @@ onMounted(() => {
         {{ !followState ? $t("followTopic") : $t("unfollowTopic") }}
       </button>
     </div>
-    <div ref="contentRef" class="scroll-wrapper">
+    <div v-if="!loadError" ref="contentRef" class="scroll-wrapper">
       <section
         v-for="(tag, index) in hashtagsData"
         :key="index"
@@ -152,49 +159,31 @@ onMounted(() => {
           <AvatarCommon :comment="tag" />
         </div>
         <div class="tag-content">
-          <div v-html="tag.content"></div>
-          <span class="tags" v-for="(child_tag, index) in tag.tags">
+          <div class="html-content"  v-html="tag.content"></div>
+          <span class="tags" v-for="(child_tag, index) in tag.tags" :key="index">
             <a target="_blank" :href="child_tag.url">{{ child_tag.name }}</a>
           </span>
         </div>
         <div class="image-grid">
-          <div
-            class="image-item"
-            v-for="(media, index) in tag.mediaAttachments"
-            :key="index"
-          >
-            <img
-              :src="media.previewUrl || media.url || media.remoteUrl"
-              alt="media"
-            />
-          </div>
+          <GridImage :mediaAttachments="tag.mediaAttachments" />
         </div>
       </section>
+    </div>
+
+    <div v-else>
+      <h1>Data Request Error</h1>
     </div>
   </main>
 </template>
 
 <style scoped>
+
+
+
 .image-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 6px;
-  width: 100%;
-  height :400px;
-}
-
-.image-item {
-  aspect-ratio: 1 / 1; /* 你也可以改成 16 / 9 */
-  overflow: hidden;
-  border-radius: 8px;
-  position: relative;
-}
-
-.image-item img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  display: block;
+  background-color: transparent;
 }
 
 a {
@@ -268,7 +257,6 @@ a {
     text-align: center;
     text-decoration: none;
     color: inherit;
-    font-size: 1rem;
     font-weight: bold;
     border-radius: 10px;
     height: 70%;

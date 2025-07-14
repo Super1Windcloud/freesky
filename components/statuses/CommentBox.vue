@@ -22,7 +22,7 @@
         </div>
         <div class="acct" style="opacity: 0.7">@{{ comment.account.acct }}</div>
         <div class="comment">
-          <div v-html="comment.content"></div>
+          <div class="html-content" v-html="comment.content"></div>
         </div>
         <div class="comment-footer"></div>
       </div>

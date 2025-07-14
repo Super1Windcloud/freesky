@@ -197,7 +197,7 @@ async function enterPostDetailPage(item: Object) {
           </div>
           <section v-else class="media-attachments">
             <h3>{{ item.mediaAttachments[0]?.description }}</h3>
-            <div v-html="item.content"></div>
+            <div class="html-content" v-html="item.content"></div>
             <img
               style="border-radius: 10px"
               alt="preview-url"
