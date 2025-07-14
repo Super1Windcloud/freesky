@@ -40,13 +40,7 @@ export default defineEventHandler(async (event) => {
   } else if (body.type === "hashtags") {
     const hashtags = results.hashtags;
     // console.log(hashtags);
-    datas = hashtags.map((result: any) => {
-      return {
-        id: result.id,
-        name: result.name,
-        url: result.url,
-      };
-    });
+    datas = hashtags;
   } else if (body.type === "statuses") {
     const statuses = results.statuses;
     // console.log(statuses);

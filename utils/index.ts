@@ -10,3 +10,9 @@ export function detectBrowserLanguage() {
   const lang = navigator.language || "en";
   return lang.includes("zh");
 }
+
+
+export function isDevMode() {
+  return !!import.meta.env.DEV;
+
+}

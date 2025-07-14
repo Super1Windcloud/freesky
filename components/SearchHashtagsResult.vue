@@ -14,6 +14,7 @@ import {
   getAccessTokenStorage,
   getInstanceUrlStorage,
 } from "~/composable/constant";
+import { isDevMode } from "~/utils";
 
 const queryStore = useQueryStore();
 const instanceUrl =
@@ -60,13 +61,47 @@ async function handleLoad() {
   hashtagsData.value.push(...data);
   loading.value = false;
 }
+
+const languages = usePreferredLanguages();
+const router = useRouter();
+
+async function enterTopicPage(item) {
+  if (isDevMode()) {
+    console.dir(item);
+  }
+  const id = item.id;
+  const name = item.name;
+  if (languages.value) {
+    const langs = languages.value;
+    if (typeof langs === "object" && langs.length > 0) {
+      if (langs[0] === "zh-CN") {
+        await router.push({
+          path: `/zh/topicDetailPage`,
+          query: {
+            name,
+            id
+          },
+        });
+        return;
+      }
+    }
+  }
+
+  await router.push({
+    path: `/topicDetailPage`,
+    query: {
+      name,
+      id
+    },
+  });
+}
 </script>
 
 <template>
   <div class="container">
     <n-infinite-scroll style="height: 100%" :distance="10" @load="handleLoad">
       <div v-for="(item, index) in hashtagsData" :key="index" class="hashtags">
-        <section class="topic">
+        <section @click="enterTopicPage(item)" class="topic">
           <div
             style="
               font-weight: bold;

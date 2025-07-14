@@ -56,5 +56,7 @@
   "more": "More",
   "theme" : "Theme",
   "reply" : "Reply",
-  "write-a-comment" : "Write a comment"
+  "write-a-comment" : "Write a comment",
+  "followTopic" : "Follow Topic",
+  "unfollowTopic" : "Unfollow Topic"
 }

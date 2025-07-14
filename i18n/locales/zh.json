@@ -59,5 +59,7 @@
   "more": "更多",
   "theme" : "主题",
   "reply" : "回复",
-  "write-a-comment" : "写一点评论吧"
+  "write-a-comment" : "写一点评论吧",
+  "followTopic" : "关注话题",
+  "unfollowTopic" : "取消关注话题"
 }
