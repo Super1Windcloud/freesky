@@ -9,7 +9,7 @@
 ---
 ![1](./imgs/img_4.png)
 ---
-
+![5](./imgs/img_5.png)
 ## Features
 
 - [x] 登录, 注册Mastodon实例节点
