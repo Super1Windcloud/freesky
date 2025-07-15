@@ -130,7 +130,8 @@ function openSourcePost() {
   const url = postDetail.card?.url;
   window.open(url, "_blank");
 }
-const languages = usePreferredLanguages() ;
+
+const languages = usePreferredLanguages();
 
 async function openAccountProfile(account) {
   const id = account.id;
@@ -156,8 +157,6 @@ async function openAccountProfile(account) {
     },
   });
 }
-
-
 </script>
 
 <template>
@@ -222,6 +221,7 @@ async function openAccountProfile(account) {
         >
         <div class="img-container" @click.stop="openSourcePost()">
           <img
+            class="preview"
             style="border-radius: 10px"
             alt=""
             :src="postDetail.card?.image"
@@ -231,9 +231,9 @@ async function openAccountProfile(account) {
       </div>
       <div v-else class="media-attachments">
         <h3>{{ postDetail.mediaAttachments?.[0]?.description }}</h3>
-        <div  class="html-content" v-html="postDetail.content"></div>
+        <div class="html-content" v-html="postDetail.content"></div>
         <img
-          style="border-radius: 10px"
+          class="preview"
           alt="preview-url"
           :src="
             postDetail.mediaAttachments?.[0]?.previewUrl ||
@@ -286,9 +286,10 @@ async function openAccountProfile(account) {
   overflow: auto;
 }
 
-img {
+.preview {
   width: 100%;
-  height: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
 .header {
@@ -354,6 +355,12 @@ img {
   }
 }
 
+img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
 .card-content,
 .media-attachments {
   max-width: 100%;
@@ -368,7 +375,7 @@ img {
 
 .no-scrollbar {
   overflow: auto;
-  scrollbar-width: none; /**隐藏滚动条 **/
+  scrollbar-width: none;
 }
 
 .no-scrollbar::-webkit-scrollbar {

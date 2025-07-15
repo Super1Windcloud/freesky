@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import store from "~/composable/store";
-import { useInstanceUrlStore } from "~/store";
+import { useInstanceUrlStore, usePersonalAccountIdStore } from "~/store";
 import { useAccessTokenStore } from "~/store";
 import { useRouter } from "vue-router";
 import { useIsLoggedInStore } from "~/store";
@@ -15,6 +15,7 @@ const instanceUrlObj = useInstanceUrlStore();
 const accessTokenObj = useAccessTokenStore();
 const isLoggedIn = useIsLoggedInStore();
 const router = useRouter();
+const personIdStore = usePersonalAccountIdStore();
 
 function logoutHandle() {
   store.session.del("accessToken");
@@ -26,38 +27,42 @@ function logoutHandle() {
   router.push("/");
 }
 
-const account  = reactive({});
+const account = reactive({
+  avatar : "",
+  username: "",
+  url    : "",
+  id     : "",
+  acct   : "",
+});
 const languages = usePreferredLanguages();
 
-
 async function openAccountProfile() {
-   const id =account.id;
-   const acct = account.acct;
-   if (id) {
-
-     if (languages.value) {
-       const langs = languages.value;
-       if (typeof langs === "object" && langs.length > 0) {
-         if (langs[0] === "zh-CN") {
-           await router.push({
-             path: `/zh/account/profile/${acct}/`,
-             query: {
-               id: id,
-             },
-           });
-           return;
-         }
-       }
-     }
-     await router.push({
-       path: `/account/profile/${acct}/`,
-       query: {
-         id: id,
-       },
-     });
-   }else {
-     console.error("user info card Account not found!");
-   }
+  const id = account.id;
+  const acct = account.acct;
+  if (id) {
+    if (languages.value) {
+      const langs = languages.value;
+      if (typeof langs === "object" && langs.length > 0) {
+        if (langs[0] === "zh-CN") {
+          await router.push({
+            path: `/zh/account/profile/${acct}/`,
+            query: {
+              id: id,
+            },
+          });
+          return;
+        }
+      }
+    }
+    await router.push({
+      path: `/account/profile/${acct}/`,
+      query: {
+        id: id,
+      },
+    });
+  } else {
+    console.error("user info card Account not found!");
+  }
 }
 
 onMounted(async () => {
@@ -79,6 +84,9 @@ onMounted(async () => {
     } catch (err) {
       console.log("fetch account info error", err);
     }
+  }
+  if (account.id) {
+    personIdStore.setPersonalAccountId(account.id);
   }
 });
 </script>

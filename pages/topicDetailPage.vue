@@ -7,7 +7,6 @@ import {
 } from "~/composable/constant";
 import axios from "axios";
 import AvatarCommon from "~/components/accounts/avatarCommon.vue";
-import Lenis from "lenis";
 import GridImage from "~/components/hashtags/GridImage.vue";
 
 const route = useRoute();
@@ -122,16 +121,8 @@ async function handleFollowTopic() {
   }
 }
 
-const contentRef = ref<HTMLElement>();
 
-onMounted(() => {
-  const lenis = new Lenis({
-    wrapper: contentRef.value,
-    autoRaf: true,
-    allowNestedScroll: true,
-    autoResize: true,
-  });
-});
+
 </script>
 
 <template>
@@ -149,7 +140,7 @@ onMounted(() => {
         {{ !followState ? $t("followTopic") : $t("unfollowTopic") }}
       </button>
     </div>
-    <div v-if="!loadError" ref="contentRef" class="scroll-wrapper">
+    <div v-if="!loadError"  class="scroll-wrapper">
       <section
         v-for="(tag, index) in hashtagsData"
         :key="index"
@@ -209,7 +200,6 @@ a {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
   position: relative;
 }
 
@@ -246,7 +236,6 @@ a {
   height: 6%;
   background-color: transparent;
   margin-top: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
   border: none;
   border-radius: 10px;
 

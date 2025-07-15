@@ -23,6 +23,20 @@ onMounted(() => {
     setLocale("en");
   }
 });
+
+import Lenis from "lenis";
+
+const contentRef = ref<HTMLElement | null>(null);
+
+onMounted(() => {
+  const lenis = new Lenis({
+    wrapper: contentRef.value,
+    content: contentRef.value,
+    autoRaf: true,
+    allowNestedScroll: true,
+  });
+  lenis.resize();
+});
 </script>
 
 <template>
@@ -30,11 +44,9 @@ onMounted(() => {
     <div class="left">
       <LeftOperationIcon />
     </div>
-    <KeepAlive>
-      <div class="center-container">
-        <slot />
-      </div>
-    </KeepAlive>
+    <div class="center-container" ref="contentRef">
+      <slot />
+    </div>
     <div class="right">
       <RigisterSection />
     </div>
@@ -46,13 +58,13 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   align-self: center;
-  height:   98vh;
+  height: 98vh;
   width: 80%;
   margin-left: 10%;
   margin-right: 10%;
   position: relative;
   font-family: Arial, sans-serif;
-  justify-content: center ;
+  justify-content: center;
   align-items: start;
   padding: 0;
 }
@@ -62,9 +74,13 @@ onMounted(() => {
   padding: 0;
   width: 40%;
   background-color: transparent;
+  max-height: 100%;
+  overflow-y: auto; /* 开启垂直滚动 */
+  scroll-behavior: smooth;
+  scrollbar-width: none;
 }
 
-.left  {
+.left {
   height: 100%;
   width: 10%;
   background-color: transparent;
@@ -72,10 +88,10 @@ onMounted(() => {
 }
 
 .right {
-  margin-left:3%;
+  margin-left: 3%;
   height: 100%;
   width: 25%;
-  background-color: transparent ;
+  background-color: transparent;
   padding: 0;
 }
 </style>

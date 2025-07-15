@@ -79,7 +79,7 @@ async function enterTopicPage(item) {
           path: `/zh/topicDetailPage`,
           query: {
             name,
-            id
+            id,
           },
         });
         return;
@@ -91,7 +91,7 @@ async function enterTopicPage(item) {
     path: `/topicDetailPage`,
     query: {
       name,
-      id
+      id,
     },
   });
 }
@@ -150,10 +150,11 @@ async function enterTopicPage(item) {
 }
 
 .container {
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 20px;
-  height: 97%;
-  padding: 7px 10px;
-  width: 97%;
+  height: 100%;
+  width: 98%;
+  margin: 0;
+  padding: 0;
 }
 </style>

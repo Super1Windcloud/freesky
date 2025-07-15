@@ -1,21 +1,33 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
-import { useAccessTokenStore, useInstanceUrlStore } from "~/store";
+import {
+  useAccessTokenStore,
+  useInstanceUrlStore,
+  usePersonalAccountIdStore,
+} from "~/store";
 import {
   getAccessTokenStorage,
   getInstanceUrlStorage,
 } from "~/composable/constant";
 import axios from "axios";
+import { isChineseSkip } from "~/utils";
+
+const languages = usePreferredLanguages();
 
 const route = useRoute();
-const accountData = reactive({});
-
+const accountData = reactive({
+  displayName: "",
+  username: "",
+  id: "",
+});
+const personalId = ref("");
 const instanceUrl =
   useInstanceUrlStore().getInstanceUrl || getInstanceUrlStorage();
 const accessToken =
   useAccessTokenStore().getAccessToken || getAccessTokenStorage();
-
+const personalIdStore = usePersonalAccountIdStore();
+const router = useRouter();
 onMounted(async () => {
   if (route?.query?.id) {
     const id = String(route.query.id || "");
@@ -23,6 +35,10 @@ onMounted(async () => {
       console.error("special account id is not exist");
       return;
     }
+    personalId.value = id;
+
+    const result = await skipToPersonalProfilePage(personalId.value);
+    if (result) return;
     try {
       const res = await axios.post("/api/account/special_account_detail/", {
         id: id,
@@ -42,6 +58,10 @@ onMounted(async () => {
       console.error("special account id is not exist from href");
       return;
     }
+    personalId.value = id;
+
+    const result = await skipToPersonalProfilePage(personalId.value);
+    if (result) return;
     try {
       const res = await axios.post("/api/account/special_account_detail/", {
         id: id,
@@ -56,6 +76,42 @@ onMounted(async () => {
     }
   }
 });
+
+async function skipToPersonalProfilePage(personId: string) {
+  if (personId === personalIdStore.getPersonalAccountId) {
+    if (languages.value) {
+      const langs = languages.value;
+      await isChineseSkip(
+        langs,
+        async () => {
+          await router.push({
+            path: `/zh/personalProfilePage`,
+            query: {
+              id: personalId.value,
+            },
+          });
+        },
+        async () => {
+          await router.push({
+            path: `/personalProfilePage`,
+            query: {
+              id: personalId.value,
+            },
+          });
+        },
+      );
+      return true;
+    }
+  }
+  return false;
+}
+
+watch(
+  () => personalIdStore.getPersonalAccountId,
+  async () => {
+    await skipToPersonalProfilePage(personalId.value);
+  },
+);
 </script>
 
 <template>

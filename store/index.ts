@@ -158,3 +158,22 @@ export const useRenderCommentBox = defineStore("useRenderCommentBox", {
     },
   },
 });
+
+export const usePersonalAccountIdStore = defineStore(
+  "usePersonalAccountIdStore",
+  {
+    state: () => ({
+      personalAccountId: "",
+    }),
+    getters: {
+      getPersonalAccountId: (state) => {
+        return state.personalAccountId;
+      },
+    },
+    actions: {
+      setPersonalAccountId(personalAccountId: string) {
+        this.personalAccountId = personalAccountId;
+      },
+    },
+  },
+);

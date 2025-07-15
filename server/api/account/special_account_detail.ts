@@ -9,6 +9,6 @@ export default defineEventHandler(async (event) => {
 
   const result = await client.v1.accounts.$select(body.id).fetch();
 
-  console.log("user info" , result);
+  console.log("userinfo" , result);
   return result;
 });
