@@ -57,9 +57,16 @@
   "favourite": "收藏",
   "comment": "评论",
   "more": "更多",
-  "theme" : "主题",
-  "reply" : "回复",
-  "write-a-comment" : "写一点评论吧",
-  "followTopic" : "关注话题",
-  "unfollowTopic" : "取消关注话题"
+  "theme": "主题",
+  "reply": "回复",
+  "write-a-comment": "写一点评论吧",
+  "followTopic": "关注话题",
+  "unfollowTopic": "取消关注话题",
+  "postCounts": "条帖子",
+  "followingPerson": "关注者",
+  "fans": "粉丝",
+  "postsComment" :"帖文留言",
+  "media" :"媒体",
+  "personalInformation": "编辑个人资料",
+  "perferenceOptions": "偏好设置"
 }

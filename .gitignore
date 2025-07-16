@@ -14,6 +14,8 @@ nuxt-build
 # Logs
 logs
 *.log
+dist 
+
 
 # Misc
 .DS_Store

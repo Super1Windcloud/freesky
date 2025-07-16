@@ -8,9 +8,17 @@ export default defineNuxtConfig({
       apiBaseUrl: process.env.FED_API_BASE || "http://localhost:8888",
     },
   },
+  vite: {
+    server: {
+      watch: {
+        ignored: ['**/dist/**'], 
+      }
+    }
+  }
+  ,
   devServer: {
     port: 3333,
-    host : '0.0.0.0',
+    host: '0.0.0.0',
   },
 
   ssr: true,
@@ -70,7 +78,9 @@ export default defineNuxtConfig({
     "/zh/topic/**": { ssr: false },
     "/topic/**": { ssr: false },
     "/zh/posts/**": { ssr: false },
-    "/posts/**": { ssr: false },
+    "/posts/**": { ssr: false }, 
+    "/settings/**": { ssr: false }, 
+    "/zh/settings/**": { ssr: false }, 
   },
   css: ["assets/css/main.css"],
   postcss: {

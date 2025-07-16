@@ -1,7 +1,5 @@
 <script setup lang="ts">
-definePageMeta({
-  ssr: false,
-});
+ 
 import { onMounted, ref, watch } from "vue";
 import { NDivider, NH2, NTabs, NTabPane } from "naive-ui";
 

@@ -58,5 +58,12 @@
   "reply" : "Reply",
   "write-a-comment" : "Write a comment",
   "followTopic" : "Follow Topic",
-  "unfollowTopic" : "Unfollow Topic"
+  "unfollowTopic" : "Unfollow Topic", 
+  "postCounts" : "Post Counts",
+  "followingPerson" : "Follow Person",
+  "fans" :"Fans",
+  "postsComment" :"Posts Comments",
+  "media" :"Media",
+  "personalInformation" :"Editor Personal Information",
+  "perferenceOptions" :"Perference Options"
 }
