@@ -18,6 +18,7 @@
 - [x] 兼容Firefox, Chrome, Safari, Edge, Opera 
 - [x] 搜索功能 ,用户详情页, 帖子详情页, 话题详情页
 - [x] 打包到PC端
+- [x] 设置路由页,用户路由页
 ---
 
 ## 启动Web
